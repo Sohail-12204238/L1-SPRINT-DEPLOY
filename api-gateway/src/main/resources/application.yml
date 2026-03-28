@@ -1,0 +1,141 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+
+            # ================= NORMAL ROUTES =================
+
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth/**
+
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/users/**
+
+            - id: startup-service
+              uri: lb://STARTUP-SERVICE
+              predicates:
+                - Path=/startups/**
+
+            - id: investment-service
+              uri: lb://INVESTMENT-SERVICE
+              predicates:
+                - Path=/investments/**
+
+            - id: team-service
+              uri: lb://TEAM-SERVICE
+              predicates:
+                - Path=/teams/**
+
+            - id: notification-service
+              uri: lb://NOTIFICATION-SERVICE
+              predicates:
+                - Path=/notifications/**
+
+
+            # ================= SWAGGER DOC ROUTES =================
+
+            - id: auth-docs
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/v3/api-docs/auth
+              filters:
+                - RewritePath=/v3/api-docs/auth, /v3/api-docs
+
+            - id: user-docs
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/v3/api-docs/user
+              filters:
+                - RewritePath=/v3/api-docs/user, /v3/api-docs
+
+            - id: startup-docs
+              uri: lb://STARTUP-SERVICE
+              predicates:
+                - Path=/v3/api-docs/startup
+              filters:
+                - RewritePath=/v3/api-docs/startup, /v3/api-docs
+
+            - id: investment-docs
+              uri: lb://INVESTMENT-SERVICE
+              predicates:
+                - Path=/v3/api-docs/investment
+              filters:
+                - RewritePath=/v3/api-docs/investment, /v3/api-docs
+
+            - id: team-docs
+              uri: lb://TEAM-SERVICE
+              predicates:
+                - Path=/v3/api-docs/team
+              filters:
+                - RewritePath=/v3/api-docs/team, /v3/api-docs
+
+            - id: notification-docs
+              uri: lb://NOTIFICATION-SERVICE
+              predicates:
+                - Path=/v3/api-docs/notification
+              filters:
+                - RewritePath=/v3/api-docs/notification, /v3/api-docs
+
+    compatibility-verifier:
+      enabled: false
+    
+
+
+# ================= SWAGGER UI =================
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: auth-service
+        url: /v3/api-docs/auth
+      - name: user-service
+        url: /v3/api-docs/user
+      - name: startup-service
+        url: /v3/api-docs/startup
+      - name: investment-service
+        url: /v3/api-docs/investment
+      - name: team-service
+        url: /v3/api-docs/team
+      - name: notification-service
+        url: /v3/api-docs/notification
+
+
+# ================= EUREKA =================
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka
+
+  instance:
+    prefer-ip-address: true
+
+
+# ================= ACTUATOR =================
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans

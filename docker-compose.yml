@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+
+  # ================= MYSQL =================
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # ================= RABBITMQ =================
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # ================= ZIPKIN =================
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  # ================= EUREKA =================
+  discovery-server:
+    build: ./service-registry
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+
+  # ================= AUTH =================
+  auth-service:
+    build: ./authservice
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+      - discovery-server
+
+  # ================= USER =================
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+      - discovery-server
+
+  # ================= STARTUP =================
+  startup-service:
+    build: ./startup-service
+    container_name: startup-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+      - discovery-server
+
+  # ================= INVESTMENT =================
+  investment-service:
+    build: ./investment-service
+    container_name: investment-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mysql
+      - rabbitmq
+      - discovery-server
+
+  # ================= TEAM =================
+  team-service:
+    build: ./team-service
+    container_name: team-service
+    ports:
+      - "8087:8087"
+    depends_on:
+      - mysql
+      - discovery-server
+
+  # ================= NOTIFICATION =================
+  notification-service:
+    build: ./founderlink-notification-service
+    container_name: notification-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mysql
+      - rabbitmq
+      - discovery-server
+
+  # ================= API GATEWAY =================
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8085:8085"
+    depends_on:
+      - discovery-server
+      - auth-service
+      - user-service
+      - startup-service
+      - investment-service
+      - team-service
+      - notification-service
+
+volumes:
+  mysql_data:
