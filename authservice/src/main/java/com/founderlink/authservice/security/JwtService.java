@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.founderlink.authservice.entity.Role;
@@ -14,10 +15,11 @@ import com.founderlink.authservice.entity.User;
 @Service
 public class JwtService {
 
-    private final String SECRET = "K9e25z91O+RHZ1c+scd1rIbgq5iXZnTbOaHrjXyJ9Mw=";
+	@Value("${jwt.secret}")
+	private String secret;
 
     private Key getSignKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String generateToken(User user) {

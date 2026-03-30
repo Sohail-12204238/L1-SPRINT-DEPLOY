@@ -17,6 +17,7 @@ import com.founderlink.userservice.dto.UserResponse;
 import com.founderlink.userservice.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -31,7 +32,7 @@ public class UserController {
 	@PostMapping
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<UserResponse> createProfile(
-	        @RequestBody UserRequest request,
+	        @Valid @RequestBody UserRequest request,
 	        HttpServletRequest httpRequest) {
 
 	    String email = httpRequest.getHeader("X-User");
@@ -44,7 +45,7 @@ public class UserController {
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<UserResponse> updateProfile(
 	        @PathVariable Long id,
-	        @RequestBody UserRequest request,
+	        @Valid @RequestBody UserRequest request,
 	        HttpServletRequest httpRequest) {
 
 	    String email = httpRequest.getHeader("X-User");

@@ -5,6 +5,7 @@ import com.founderlink.investmentservice.dto.*;
 import com.founderlink.investmentservice.service.InvestmentService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class InvestmentController {
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_INVESTOR')")
     public ResponseEntity<InvestmentResponse> create(
-            @RequestBody InvestmentRequest request,
+            @Valid @RequestBody InvestmentRequest request,
             HttpServletRequest httpRequest) {
 
         String email = httpRequest.getHeader("X-User");
@@ -76,7 +77,7 @@ public class InvestmentController {
     @PostMapping("/investment-requests")
     @PreAuthorize("hasAuthority('ROLE_FOUNDER')")
     public ResponseEntity<InvestorRequestResponse> sendRequest(
-            @RequestBody InvestorRequestRequest request,
+            @Valid @RequestBody InvestorRequestRequest request,
             HttpServletRequest httpRequest) {
 
         String founderEmail = httpRequest.getHeader("X-User");

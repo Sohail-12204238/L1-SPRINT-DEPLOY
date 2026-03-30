@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   # ================= MYSQL =================
@@ -8,7 +6,7 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
@@ -18,6 +16,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
+    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -26,6 +25,7 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    restart: always
     ports:
       - "9411:9411"
 
@@ -33,6 +33,7 @@ services:
   discovery-server:
     build: ./service-registry
     container_name: discovery-server
+    restart: always
     ports:
       - "8761:8761"
 
@@ -40,68 +41,97 @@ services:
   auth-service:
     build: ./authservice
     container_name: auth-service
+    restart: always
     ports:
       - "8081:8081"
     depends_on:
       - mysql
       - discovery-server
+    env_file:
+      - .env
 
   # ================= USER =================
   user-service:
     build: ./user-service
     container_name: user-service
+    restart: always
     ports:
       - "8082:8082"
     depends_on:
       - mysql
       - discovery-server
+    env_file:
+      - .env
 
   # ================= STARTUP =================
   startup-service:
     build: ./startup-service
     container_name: startup-service
+    restart: always
     ports:
       - "8083:8083"
     depends_on:
       - mysql
       - discovery-server
+    env_file:
+      - .env
 
   # ================= INVESTMENT =================
   investment-service:
     build: ./investment-service
     container_name: investment-service
+    restart: always
     ports:
       - "8084:8084"
     depends_on:
       - mysql
       - rabbitmq
       - discovery-server
+    env_file:
+      - .env
 
   # ================= TEAM =================
   team-service:
     build: ./team-service
     container_name: team-service
+    restart: always
     ports:
       - "8087:8087"
     depends_on:
       - mysql
       - discovery-server
+    env_file:
+      - .env
 
   # ================= NOTIFICATION =================
   notification-service:
     build: ./founderlink-notification-service
     container_name: notification-service
+    restart: always
     ports:
       - "8086:8086"
     depends_on:
       - mysql
       - rabbitmq
       - discovery-server
+    env_file:
+      - .env
+
+  # ================= SONARQUBE =================
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
 
   # ================= API GATEWAY =================
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
+    restart: always
     ports:
       - "8085:8085"
     depends_on:
@@ -112,6 +142,8 @@ services:
       - investment-service
       - team-service
       - notification-service
+    env_file:
+      - .env
 
 volumes:
   mysql_data:

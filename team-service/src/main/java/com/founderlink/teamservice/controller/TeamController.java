@@ -11,6 +11,7 @@ import com.founderlink.teamservice.dto.*;
 import com.founderlink.teamservice.service.TeamService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,7 +24,7 @@ public class TeamController {
     @PostMapping("/invite")
     @PreAuthorize("hasAuthority('ROLE_FOUNDER')")
     public ResponseEntity<TeamResponse> invite(
-            @RequestBody InviteRequest request,
+            @Valid @RequestBody InviteRequest request,
             HttpServletRequest httpRequest) {
 
         String founderEmail = httpRequest.getHeader("X-User");
@@ -34,7 +35,7 @@ public class TeamController {
     @PostMapping("/join")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<TeamResponse> join(
-            @RequestBody JoinRequest request,
+            @Valid @RequestBody JoinRequest request,
             HttpServletRequest httpRequest) {
 
         String userEmail = httpRequest.getHeader("X-User");

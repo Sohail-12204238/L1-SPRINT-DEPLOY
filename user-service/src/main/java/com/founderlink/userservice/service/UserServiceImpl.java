@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService{
 	    user.setEmail(email);
 	    user.setCreatedAt(LocalDateTime.now());
 
-	    // 🔥 SET ROLE FROM JWT (NOT FROM REQUEST)
 	    user.setRole(Role.valueOf(roleHeader));
 
 	    User saved = userRepository.save(user);

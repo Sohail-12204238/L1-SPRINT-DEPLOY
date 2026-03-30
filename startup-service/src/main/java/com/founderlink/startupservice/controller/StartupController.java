@@ -18,6 +18,7 @@ import com.founderlink.startupservice.dto.StartupResponse;
 import com.founderlink.startupservice.service.StartupService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/startups")
@@ -30,7 +31,7 @@ public class StartupController {
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_FOUNDER')")
 	public ResponseEntity<StartupResponse> createStartup(
-	        @RequestBody StartupRequest request,
+	        @Valid @RequestBody StartupRequest request,
 	        HttpServletRequest httpRequest) {
 
 	    String email = httpRequest.getHeader("X-User");

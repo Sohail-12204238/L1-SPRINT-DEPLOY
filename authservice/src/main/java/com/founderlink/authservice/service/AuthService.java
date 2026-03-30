@@ -25,6 +25,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public String register(RegisterRequest request) {
+    	
+    	if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+    	    throw new RuntimeException("User already exists");
+    	}
 
         String roleName = "ROLE_" + request.getRole().toUpperCase();
 
