@@ -80,5 +80,16 @@ public class StartupController {
         String email = request.getHeader("X-User");
         return ResponseEntity.ok(service.getStartupsByFounder(email));
     }
-	
+
+    @PutMapping("/{id}/approve")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<StartupResponse> approve(@PathVariable Long id) {
+        return ResponseEntity.ok(service.approveStartup(id));
+    }
+
+    @PutMapping("/{id}/reject")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<StartupResponse> reject(@PathVariable Long id) {
+        return ResponseEntity.ok(service.rejectStartup(id));
+    }
 }

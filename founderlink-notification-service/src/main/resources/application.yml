@@ -6,7 +6,7 @@ spring:
     name: NOTIFICATION-SERVICE
 
   rabbitmq:
-    host: rabbitmq
+    host: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: guest
     password: guest
@@ -18,7 +18,7 @@ spring:
           max-attempts: 5
 
   datasource:
-    url: jdbc:mysql://mysql:3306/notifications_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/notifications_db?createDatabaseIfNotExist=true
     username: root
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -43,7 +43,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka
 
   instance:
     prefer-ip-address: true
@@ -60,7 +60,7 @@ management:
 
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: http://${ZIPKIN_HOST:localhost}:9411/api/v2/spans
 
 springdoc:
   api-docs:

@@ -189,6 +189,7 @@ public class InvestmentServiceImpl implements InvestmentService {
                 .investorEmail(request.getInvestorEmail())
                 .proposedAmount(request.getProposedAmount())
                 .status(RequestStatus.PENDING)
+                .message(request.getMessage())
                 .createdAt(LocalDateTime.now())
                 .build();
 

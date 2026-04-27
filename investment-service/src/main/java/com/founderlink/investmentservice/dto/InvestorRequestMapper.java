@@ -16,6 +16,7 @@ public class InvestorRequestMapper {
                 .investorEmail(entity.getInvestorEmail())
                 .proposedAmount(entity.getProposedAmount())
                 .status(entity.getStatus())
+                .message(entity.getMessage())
                 .createdAt(entity.getCreatedAt())
                 .build();
     }

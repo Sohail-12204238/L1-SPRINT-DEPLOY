@@ -1,6 +1,7 @@
 package com.founderlink.startupservice.dto;
 
 import com.founderlink.startupservice.entity.StartupStage;
+import com.founderlink.startupservice.entity.StartupStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,7 @@ public class StartupResponse {
     private String solution;
     private Double fundingGoal;
     private StartupStage stage;
+    private String logoUrl;
+    private StartupStatus status;
     private String founderEmail;
 }

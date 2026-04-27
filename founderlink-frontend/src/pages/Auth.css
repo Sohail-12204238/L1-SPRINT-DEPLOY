@@ -1,0 +1,204 @@
+/* ─── AUTH PAGE WRAPPER ──────────────────────────────────────────────────────── */
+.auth-page{
+  min-height:100vh;display:flex;
+  background:var(--bg-base);
+}
+
+/* ─── LEFT PANEL ─────────────────────────────────────────────────────────────── */
+.auth-left{
+  width:380px;flex-shrink:0;
+  background:#1e1e38;
+  padding:2rem;display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.auth-left::before{
+  content:'';position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 80% 60% at 30% 20%,rgba(108,92,231,.25) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.auth-left-logo{
+  display:flex;align-items:center;gap:.6rem;position:relative;z-index:1;
+}
+.auth-logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--purple);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.auth-logo-name{
+  font-size:1.1rem;font-weight:700;color:#fff;
+}
+
+.auth-left-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:2rem 0;position:relative;z-index:1;
+}
+.auth-left-tagline{
+  font-size:2rem;font-weight:800;line-height:1.2;color:#fff;margin-bottom:.9rem;
+}
+.auth-left-sub{
+  font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:1.75rem;
+}
+.auth-features{
+  list-style:none;display:flex;flex-direction:column;gap:.9rem;
+}
+.auth-features li{
+  display:flex;align-items:flex-start;gap:.65rem;
+  font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.4;
+}
+.auth-check{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--purple-dim);border:1px solid var(--purple-border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--purple);flex-shrink:0;margin-top:.05rem;
+}
+
+.auth-stats{
+  display:flex;gap:.1rem;border-top:1px solid rgba(255,255,255,.08);
+  padding-top:1.25rem;position:relative;z-index:1;
+}
+.auth-stat{
+  flex:1;padding:.6rem;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.auth-stat:last-child{border-right:none;}
+.auth-stat-val{
+  display:block;font-size:1.15rem;font-weight:800;color:#fff;
+}
+.auth-stat-label{
+  display:block;font-size:.72rem;color:rgba(255,255,255,.45);margin-top:.1rem;
+}
+
+/* ─── RIGHT PANEL ────────────────────────────────────────────────────────────── */
+.auth-right{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:2rem;
+  background:var(--bg-base);
+}
+.auth-right-inner{
+  width:100%;max-width:420px;
+}
+.auth-right-title{
+  font-size:1.65rem;font-weight:800;color:#fff;margin-bottom:.3rem;
+}
+.auth-right-sub{
+  font-size:.88rem;color:var(--text-2);margin-bottom:1.5rem;
+}
+
+/* Tab switcher */
+.auth-tabs{
+  display:flex;gap:.35rem;margin-bottom:1.5rem;
+  background:rgba(255,255,255,.05);padding:.3rem;
+  border-radius:10px;border:1px solid var(--border);
+}
+.auth-tab{
+  flex:1;padding:.5rem;text-align:center;border-radius:8px;
+  font-size:.88rem;font-weight:600;cursor:pointer;
+  background:none;border:none;color:var(--text-2);
+  transition:all .18s;text-decoration:none;display:flex;align-items:center;justify-content:center;
+}
+.auth-tab.active,.auth-tab:hover{
+  background:var(--purple);color:#fff;
+}
+
+.auth-forgot{
+  font-size:.78rem;color:var(--purple);cursor:pointer;
+  transition:color .18s;
+}
+.auth-forgot:hover{color:var(--purple-hover);}
+
+.auth-remember{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.85rem;color:var(--text-2);margin-bottom:1.1rem;cursor:pointer;
+}
+.auth-remember input{
+  width:15px;height:15px;accent-color:var(--purple);cursor:pointer;
+}
+
+.btn-google{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:.75rem;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  color:var(--text-1);font-size:.9rem;font-weight:600;font-family:'Inter',sans-serif;
+  padding:.7rem 1rem;border-radius:var(--radius-sm);cursor:pointer;
+  transition:all .18s;margin-top:.75rem;
+}
+.btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);}
+
+.auth-tos{
+  text-align:center;font-size:.75rem;color:var(--text-3);
+  margin-top:1.25rem;line-height:1.5;
+}
+
+/* ─── REGISTER — MULTI-STEP ──────────────────────────────────────────────────── */
+.register-page{
+  min-height:100vh;background:var(--bg-base);
+  display:flex;flex-direction:column;align-items:center;padding:2.5rem 1.5rem;
+}
+.register-header{
+  width:100%;max-width:700px;margin-bottom:2rem;
+}
+.register-logo{
+  display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;
+}
+.register-stepper{
+  display:flex;align-items:center;gap:.5rem;margin-bottom:2rem;
+}
+.step-item{display:flex;align-items:center;gap:.4rem;}
+.step-num{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;flex-shrink:0;
+  transition:all .2s;
+}
+.step-num.done{background:var(--purple);color:#fff;}
+.step-num.active{background:var(--purple);color:#fff;}
+.step-num.idle{background:rgba(255,255,255,.08);color:var(--text-3);border:1px solid var(--border);}
+.step-label{font-size:.83rem;font-weight:500;}
+.step-label.active{color:#fff;}
+.step-label.done{color:var(--text-2);}
+.step-label.idle{color:var(--text-3);}
+.step-line{flex:1;height:1px;background:var(--border);min-width:40px;}
+
+.register-body{width:100%;max-width:700px;}
+.register-title{font-size:1.55rem;font-weight:800;color:#fff;margin-bottom:.35rem;}
+.register-sub{font-size:.88rem;color:var(--text-2);margin-bottom:2rem;}
+
+/* Role cards grid */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.role-card{
+  background:var(--bg-card);border:2px solid var(--border);
+  border-radius:var(--radius-lg);padding:1.4rem;cursor:pointer;
+  transition:all .2s;position:relative;
+}
+.role-card:hover:not(.disabled){border-color:rgba(108,92,231,.5);}
+.role-card.selected{border-color:var(--purple);background:rgba(108,92,231,.1);}
+.role-card.disabled{opacity:.4;cursor:not-allowed;}
+.role-card-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem;flex-shrink:0;
+}
+.role-card h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+.role-card p{font-size:.8rem;color:var(--text-2);line-height:1.45;}
+.role-selected-badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.72rem;font-weight:700;color:var(--purple);margin-top:.65rem;
+}
+
+.register-footer{text-align:center;margin-top:1.25rem;font-size:.85rem;color:var(--text-3);}
+.register-footer a{color:var(--purple);text-decoration:none;font-weight:600;}
+.register-footer a:hover{color:var(--purple-hover);}
+
+/* Step 2 — Personal info */
+.register-form-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-xl);padding:2rem;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+@media(max-width:640px){
+  .auth-left{display:none;}
+  .role-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}

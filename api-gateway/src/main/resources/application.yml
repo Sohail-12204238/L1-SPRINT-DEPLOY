@@ -2,7 +2,7 @@ server:
   port: 8085
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:K9e25z91O+RHZ1c+scd1rIbgq5iXZnTbOaHrjXyJ9Mw=}
 
 spring:
   application:
@@ -121,7 +121,7 @@ springdoc:
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka
 
   instance:
     prefer-ip-address: true
@@ -141,4 +141,4 @@ management:
 
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: http://${ZIPKIN_HOST:localhost}:9411/api/v2/spans

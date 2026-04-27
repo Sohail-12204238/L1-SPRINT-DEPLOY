@@ -1,17 +1,5 @@
 services:
 
-  # ================= MYSQL =================
-  mysql:
-    image: mysql:8
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   # ================= RABBITMQ =================
   rabbitmq:
     image: rabbitmq:3-management
@@ -29,14 +17,6 @@ services:
     ports:
       - "9411:9411"
 
-  # ================= EUREKA =================
-  discovery-server:
-    build: ./service-registry
-    container_name: discovery-server
-    restart: always
-    ports:
-      - "8761:8761"
-
   # ================= AUTH =================
   auth-service:
     build: ./authservice
@@ -44,11 +24,12 @@ services:
     restart: always
     ports:
       - "8081:8081"
-    depends_on:
-      - mysql
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - ZIPKIN_HOST=zipkin
 
   # ================= USER =================
   user-service:
@@ -57,11 +38,12 @@ services:
     restart: always
     ports:
       - "8082:8082"
-    depends_on:
-      - mysql
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - ZIPKIN_HOST=zipkin
 
   # ================= STARTUP =================
   startup-service:
@@ -70,11 +52,12 @@ services:
     restart: always
     ports:
       - "8083:8083"
-    depends_on:
-      - mysql
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - ZIPKIN_HOST=zipkin
 
   # ================= INVESTMENT =================
   investment-service:
@@ -84,11 +67,14 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      - mysql
       - rabbitmq
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_HOST=zipkin
 
   # ================= TEAM =================
   team-service:
@@ -97,11 +83,12 @@ services:
     restart: always
     ports:
       - "8087:8087"
-    depends_on:
-      - mysql
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - ZIPKIN_HOST=zipkin
 
   # ================= NOTIFICATION =================
   notification-service:
@@ -111,11 +98,14 @@ services:
     ports:
       - "8086:8086"
     depends_on:
-      - mysql
       - rabbitmq
-      - discovery-server
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EUREKA_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_HOST=zipkin
 
   # ================= SONARQUBE =================
   sonarqube:
@@ -135,7 +125,6 @@ services:
     ports:
       - "8085:8085"
     depends_on:
-      - discovery-server
       - auth-service
       - user-service
       - startup-service
@@ -144,6 +133,18 @@ services:
       - notification-service
     env_file:
       - .env
+    environment:
+      - EUREKA_HOST=host.docker.internal
+      - ZIPKIN_HOST=zipkin
 
-volumes:
-  mysql_data:
+  # ================= FRONTEND =================
+  frontend:
+    build: ./founderlink-frontend
+    container_name: founderlink-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
+
+

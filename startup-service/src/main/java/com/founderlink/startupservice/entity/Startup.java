@@ -35,5 +35,10 @@ public class Startup {
     private Double fundingGoal;
     @Enumerated(EnumType.STRING)
     private StartupStage stage;
+
+    private String logoUrl;
+    @Enumerated(EnumType.STRING)
+    private StartupStatus status;
+
     private LocalDateTime createdAt;
 }

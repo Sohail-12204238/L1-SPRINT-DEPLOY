@@ -29,5 +29,7 @@ public class InvestorRequestResponse {
 
     private RequestStatus status;
 
+    private String message;
+
     private LocalDateTime createdAt;
 }

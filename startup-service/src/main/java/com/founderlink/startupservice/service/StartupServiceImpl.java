@@ -10,6 +10,7 @@ import com.founderlink.startupservice.dto.StartupMapper;
 import com.founderlink.startupservice.dto.StartupRequest;
 import com.founderlink.startupservice.dto.StartupResponse;
 import com.founderlink.startupservice.entity.Startup;
+import com.founderlink.startupservice.entity.StartupStatus;
 import com.founderlink.startupservice.exception.StartupNotFoundException;
 import com.founderlink.startupservice.repository.StartupRepository;
 
@@ -30,6 +31,7 @@ public class StartupServiceImpl implements StartupService{
 
 	    startup.setFounderEmail(founderEmail);
 	    startup.setCreatedAt(LocalDateTime.now());
+	    startup.setStatus(StartupStatus.PENDING); // 🚀 INITIAL STATUS
 
 	    Startup saved = repository.save(startup);
 
@@ -60,8 +62,9 @@ public class StartupServiceImpl implements StartupService{
 	    existing.setSolution(request.getSolution());
 	    existing.setFundingGoal(request.getFundingGoal());
 	    existing.setStage(request.getStage());
+	    existing.setLogoUrl(request.getLogoUrl());
 
-	    return mapper.toDTO(repository.save(existing)); // ✅ FIXED
+	    return mapper.toDTO(repository.save(existing)); 
 	}
 
 	@Override
@@ -89,4 +92,20 @@ public class StartupServiceImpl implements StartupService{
         List<Startup> startups = repository.findByFounderEmail(founderEmail);
         return startups.stream().map(mapper::toDTO).collect(Collectors.toList());
     }
+
+	@Override
+	public StartupResponse approveStartup(Long id) {
+		Startup startup = repository.findById(id)
+				.orElseThrow(() -> new StartupNotFoundException("Startup Not Found"));
+		startup.setStatus(StartupStatus.LIVE);
+		return mapper.toDTO(repository.save(startup));
+	}
+
+	@Override
+	public StartupResponse rejectStartup(Long id) {
+		Startup startup = repository.findById(id)
+				.orElseThrow(() -> new StartupNotFoundException("Startup Not Found"));
+		startup.setStatus(StartupStatus.REJECTED);
+		return mapper.toDTO(repository.save(startup));
+	}
 }

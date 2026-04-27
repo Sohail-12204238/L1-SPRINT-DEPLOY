@@ -15,6 +15,7 @@ public class StartupMapper {
 				.solution(request.getSolution())
 				.fundingGoal(request.getFundingGoal())
 				.stage(request.getStage())
+				.logoUrl(request.getLogoUrl())
 				.build();
 	}
 	
@@ -28,6 +29,8 @@ public class StartupMapper {
 				.solution(startup.getSolution())
 				.fundingGoal(startup.getFundingGoal())
 				.stage(startup.getStage())
+				.logoUrl(startup.getLogoUrl())
+				.status(startup.getStatus())
 				.founderEmail(startup.getFounderEmail())
 				.build();
 	}

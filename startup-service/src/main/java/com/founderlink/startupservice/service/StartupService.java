@@ -12,4 +12,6 @@ public interface StartupService {
 	List<StartupResponse> getAllStartups();
 	void deleteStartupById(Long id, String email);
 	List<StartupResponse> getStartupsByFounder(String founderEmail);
+	StartupResponse approveStartup(Long id);
+	StartupResponse rejectStartup(Long id);
 }

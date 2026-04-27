@@ -35,5 +35,7 @@ public class InvestorRequest {
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
 
+    private String message;
+
     private LocalDateTime createdAt;
 }

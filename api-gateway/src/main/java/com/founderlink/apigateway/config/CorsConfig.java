@@ -24,7 +24,10 @@ public class CorsConfig {
         	    "http://localhost:8083",
         	    "http://localhost:8084",
         	    "http://localhost:8086",
-        	    "http://localhost:8087"
+        	    "http://localhost:8087",
+        	    "http://localhost:5173",
+        	    "http://localhost:3000",
+        	    "http://localhost"
         	));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("*"));

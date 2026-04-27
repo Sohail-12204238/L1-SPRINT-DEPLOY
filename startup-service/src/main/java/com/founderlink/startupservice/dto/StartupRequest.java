@@ -36,4 +36,6 @@ public class StartupRequest {
 
     @NotNull(message = "Startup stage is required")
     private StartupStage stage;
+
+    private String logoUrl;
 }

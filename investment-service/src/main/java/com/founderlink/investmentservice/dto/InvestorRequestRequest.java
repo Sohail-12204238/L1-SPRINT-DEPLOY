@@ -19,4 +19,6 @@ public class InvestorRequestRequest {
     @NotNull(message = "Proposed amount is required")
     @Min(value = 1, message = "Proposed amount must be greater than 0")
     private Double proposedAmount;
+
+    private String message;
 }
