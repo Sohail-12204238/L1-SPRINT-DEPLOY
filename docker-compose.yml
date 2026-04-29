@@ -1,5 +1,18 @@
 services:
 
+  # ================= MYSQL =================
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-1234}
+      - MYSQL_DATABASE=auth_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   # ================= RABBITMQ =================
   rabbitmq:
     image: rabbitmq:3-management
@@ -17,6 +30,14 @@ services:
     ports:
       - "9411:9411"
 
+  # ================= SERVICE REGISTRY =================
+  service-registry:
+    build: ./service-registry
+    container_name: service-registry
+    restart: always
+    ports:
+      - "8761:8761"
+
   # ================= AUTH =================
   auth-service:
     build: ./authservice
@@ -24,11 +45,14 @@ services:
     restart: always
     ports:
       - "8081:8081"
+    depends_on:
+      - mysql
+      - service-registry
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - ZIPKIN_HOST=zipkin
 
   # ================= USER =================
@@ -38,11 +62,14 @@ services:
     restart: always
     ports:
       - "8082:8082"
+    depends_on:
+      - mysql
+      - service-registry
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - ZIPKIN_HOST=zipkin
 
   # ================= STARTUP =================
@@ -52,11 +79,14 @@ services:
     restart: always
     ports:
       - "8083:8083"
+    depends_on:
+      - mysql
+      - service-registry
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - ZIPKIN_HOST=zipkin
 
   # ================= INVESTMENT =================
@@ -67,12 +97,14 @@ services:
     ports:
       - "8084:8084"
     depends_on:
+      - mysql
+      - service-registry
       - rabbitmq
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - RABBITMQ_HOST=rabbitmq
       - ZIPKIN_HOST=zipkin
 
@@ -83,11 +115,14 @@ services:
     restart: always
     ports:
       - "8087:8087"
+    depends_on:
+      - mysql
+      - service-registry
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - ZIPKIN_HOST=zipkin
 
   # ================= NOTIFICATION =================
@@ -98,24 +133,16 @@ services:
     ports:
       - "8086:8086"
     depends_on:
+      - mysql
+      - service-registry
       - rabbitmq
     env_file:
       - .env
     environment:
-      - MYSQL_HOST=host.docker.internal
-      - EUREKA_HOST=host.docker.internal
+      - MYSQL_HOST=mysql
+      - EUREKA_HOST=service-registry
       - RABBITMQ_HOST=rabbitmq
       - ZIPKIN_HOST=zipkin
-
-  # ================= SONARQUBE =================
-  sonarqube:
-    image: sonarqube:community
-    container_name: sonarqube
-    restart: always
-    ports:
-      - "9000:9000"
-    environment:
-      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
 
   # ================= API GATEWAY =================
   api-gateway:
@@ -125,26 +152,24 @@ services:
     ports:
       - "8085:8085"
     depends_on:
+      - service-registry
       - auth-service
-      - user-service
-      - startup-service
-      - investment-service
-      - team-service
       - notification-service
     env_file:
       - .env
     environment:
-      - EUREKA_HOST=host.docker.internal
+      - EUREKA_HOST=service-registry
       - ZIPKIN_HOST=zipkin
 
   # ================= FRONTEND =================
   frontend:
     build: ./founderlink-frontend
-    container_name: founderlink-frontend
+    container_name: frontend
     restart: always
     ports:
       - "80:80"
     depends_on:
       - api-gateway
 
-
+volumes:
+  mysql_data:

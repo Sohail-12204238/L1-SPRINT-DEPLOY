@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class NotificatioServiceImpl implements NotificationService {
+public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository repository;
 

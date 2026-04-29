@@ -68,3 +68,8 @@ export const adminAPI = {
   // All startups (for admin review)
   getPendingStartups: () => startupAPI.getAll(),
 };
+// ─── NOTIFICATION ─────────────────────────────────────────────────────────────
+export const notificationAPI = {
+  getAll: () => api.get('/notifications'),
+  markAsRead: (id) => api.put(`/notifications/read/${id}`),
+};

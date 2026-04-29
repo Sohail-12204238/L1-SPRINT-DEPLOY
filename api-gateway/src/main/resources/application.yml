@@ -44,7 +44,7 @@ spring:
             - id: notification-service
               uri: lb://NOTIFICATION-SERVICE
               predicates:
-                - Path=/notifications/**
+                - Path=/notifications, /notifications/**
 
 
             # ================= SWAGGER DOC ROUTES =================
