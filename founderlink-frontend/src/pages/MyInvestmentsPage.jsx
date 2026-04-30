@@ -29,7 +29,7 @@ export default function MyInvestmentsPage() {
       <main className="main-content">
         <div className="page-toprow">
           <div>
-            <h1 className="page-h1">📊 My Portfolio</h1>
+            <h1 className="page-h1">My Portfolio</h1>
             <p className="page-sub">Track all your investments across startups</p>
           </div>
         </div>
@@ -47,9 +47,9 @@ export default function MyInvestmentsPage() {
           <div className="stat-card">
             <p className="stat-label">Approved / Pending</p>
             <p className="stat-value" style={{ fontSize:'1.2rem' }}>
-              <span style={{ color:'var(--green)' }}>{approved}</span>
+              <span style={{ color:'var(--success)' }}>{approved}</span>
               <span style={{ color:'var(--text-3)', fontWeight:400, fontSize:'.9rem' }}> / </span>
-              <span style={{ color:'#fbbf24' }}>{pending}</span>
+              <span style={{ color:'var(--warning)' }}>{pending}</span>
             </p>
           </div>
         </div>
@@ -58,7 +58,6 @@ export default function MyInvestmentsPage() {
         {error && <div className="alert alert-error">⚠️ {error}</div>}
         {!loading && investments.length === 0 && (
           <div className="empty">
-            <span className="empty-icon">💼</span>
             <p className="empty-title">No investments yet</p>
             <p>Browse startups and invest to build your portfolio</p>
           </div>
@@ -85,10 +84,10 @@ export default function MyInvestmentsPage() {
                           display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.7rem',fontWeight:800 }}>
                           #{inv.startupId}
                         </div>
-                        <span style={{ fontWeight:600, color:'#fff' }}>Startup #{inv.startupId}</span>
+                        <span style={{ fontWeight:600, color:'var(--text-1)' }}>Startup #{inv.startupId}</span>
                       </div>
                     </td>
-                    <td style={{ fontWeight:700, color:'var(--green)' }}>₹{inv.amount?.toLocaleString()}</td>
+                    <td style={{ fontWeight:600, color:'var(--success)' }}>₹{inv.amount?.toLocaleString()}</td>
                     <td><span className={`badge badge-${STATUS_MAP[inv.status]||'pending'}`}>{inv.status}</span></td>
                   </tr>
                 ))}
@@ -100,17 +99,17 @@ export default function MyInvestmentsPage() {
 
       <style>{`
         .page-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;}
-        .page-h1{font-size:1.45rem;font-weight:800;color:#fff;}
+        .page-h1{font-size:1.45rem;font-weight:600;color:var(--text-1);}
         .page-sub{font-size:.87rem;color:var(--text-2);margin-top:.2rem;}
         .stats-row{display:grid;gap:1rem;margin-bottom:2rem;}
-        .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;}
+        .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.1rem 1.25rem;}
         .stat-label{font-size:.75rem;color:var(--text-2);font-weight:500;margin-bottom:.35rem;}
-        .stat-value{font-size:1.65rem;font-weight:800;color:#fff;}
-        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+        .stat-value{font-size:1.65rem;font-weight:600;color:var(--text-1);}
+        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;}
         .inv-table{width:100%;border-collapse:collapse;}
-        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);background:rgba(255,255,255,.03);}
-        .inv-table td{padding:.85rem 1.25rem;border-top:1px solid var(--border);vertical-align:middle;font-size:.88rem;}
-        .inv-table tr:hover td{background:rgba(255,255,255,.02);}
+        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.875rem;font-weight:500;color:var(--text-2);border-bottom:1px solid var(--border);}
+        .inv-table td{padding:.85rem 1.25rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.88rem; color:var(--text-1);}
+        .inv-table tr:hover td{background:var(--bg-hover);}
       `}</style>
     </div>
   );

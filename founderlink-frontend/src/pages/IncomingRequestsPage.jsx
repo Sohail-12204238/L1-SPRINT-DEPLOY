@@ -35,7 +35,7 @@ export default function IncomingRequestsPage() {
       <main className="main-content">
         <div className="page-toprow">
           <div>
-            <h1 className="page-h1">📬 Inbox — Funding Requests</h1>
+            <h1 className="page-h1">Inbox — Funding Requests</h1>
             <p className="page-sub">Investment requests sent to you by founders</p>
           </div>
         </div>
@@ -44,7 +44,6 @@ export default function IncomingRequestsPage() {
         {error && <div className="alert alert-error">⚠️ {error}</div>}
         {!loading && requests.length === 0 && (
           <div className="empty">
-            <span className="empty-icon">📬</span>
             <p className="empty-title">Inbox is empty</p>
             <p>Founders will send you investment requests here</p>
           </div>
@@ -65,8 +64,8 @@ export default function IncomingRequestsPage() {
               <tbody>
                 {requests.map(req => (
                   <tr key={req.id}>
-                    <td style={{ fontWeight: 600, color: '#fff' }}>#{req.startupId}</td>
-                    <td style={{ fontWeight: 700, color: 'var(--green)' }}>₹{req.proposedAmount?.toLocaleString()}</td>
+                    <td style={{ fontWeight: 600, color: 'var(--text-1)' }}>#{req.startupId}</td>
+                    <td style={{ fontWeight: 600, color: 'var(--success)' }}>₹{req.proposedAmount?.toLocaleString()}</td>
                     <td style={{ color: 'var(--text-2)', fontSize: '.83rem' }}>{req.founderEmail || '—'}</td>
                     <td>
                       <span className={`badge badge-${req.status?.toLowerCase() === 'pending' ? 'pending' : req.status?.toLowerCase() === 'accepted' ? 'approved' : 'rejected'}`}>
@@ -95,13 +94,13 @@ export default function IncomingRequestsPage() {
 
       <style>{`
         .page-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;}
-        .page-h1{font-size:1.45rem;font-weight:800;color:#fff;}
+        .page-h1{font-size:1.45rem;font-weight:600;color:var(--text-1);}
         .page-sub{font-size:.87rem;color:var(--text-2);margin-top:.2rem;}
-        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;}
         .inv-table{width:100%;border-collapse:collapse;}
-        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);background:rgba(255,255,255,.03);}
-        .inv-table td{padding:.85rem 1.25rem;border-top:1px solid var(--border);vertical-align:middle;font-size:.88rem;}
-        .inv-table tr:hover td{background:rgba(255,255,255,.02);}
+        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.875rem;font-weight:500;color:var(--text-2);border-bottom:1px solid var(--border);}
+        .inv-table td{padding:.85rem 1.25rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.88rem; color:var(--text-1);}
+        .inv-table tr:hover td{background:var(--bg-hover);}
       `}</style>
     </div>
   );

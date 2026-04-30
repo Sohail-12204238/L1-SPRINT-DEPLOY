@@ -29,7 +29,7 @@ spring:
             - id: startup-service
               uri: lb://STARTUP-SERVICE
               predicates:
-                - Path=/startups/**
+                - Path=/startups/**, /milestones/**
 
             - id: investment-service
               uri: lb://INVESTMENT-SERVICE

@@ -12,6 +12,7 @@ export const userAPI = {
   updateProfile: (id, data) => api.put(`/users/${id}`, data),
   viewProfile: (id) => api.get(`/users/${id}`),
   getInvestors: () => api.get('/users/investors'),
+  getCofounders: () => api.get('/users/cofounders'),
   getByEmail: (email) => api.get(`/users/email/${email}`),
 };
 
@@ -43,6 +44,8 @@ export const investmentAPI = {
 export const teamAPI = {
   invite: (data) => api.post('/teams/invite', data),
   join: (data) => api.post('/teams/join', data),
+  requestJoin: (data) => api.post('/teams/request-join', data),
+  respond: (id, accept) => api.put(`/teams/respond/${id}?accept=${accept}`),
   getTeamByStartup: (startupId) => api.get(`/teams/startup/${startupId}`),
   getMyTeams: () => api.get('/teams/my'),
 };

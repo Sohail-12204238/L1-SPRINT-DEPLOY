@@ -10,6 +10,10 @@ public interface TeamService {
 
     TeamResponse join(String userEmail, JoinRequest request);
 
+    TeamResponse requestJoin(String userEmail, JoinRequest request);
+
+    TeamResponse respondToTeam(Long teamId, boolean accept, String userEmail);
+
     List<TeamResponse> getTeamByStartup(Long startupId, String email);
 
     List<TeamResponse> getMyTeams(String email);

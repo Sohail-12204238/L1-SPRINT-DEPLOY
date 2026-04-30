@@ -16,6 +16,7 @@ import IncomingRequestsPage from './pages/IncomingRequestsPage';
 import InvestorRequestsPage from './pages/InvestorRequestsPage';
 import MyTeamsPage from './pages/MyTeamsPage';
 import FindInvestorsPage from './pages/FindInvestorsPage';
+import FindCofoundersPage from './pages/FindCofoundersPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
 
@@ -61,6 +62,11 @@ export default function App() {
           <Route path="/find-investors" element={
             <ProtectedRoute roles={['FOUNDER']}>
               <FindInvestorsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/find-cofounders" element={
+            <ProtectedRoute roles={['FOUNDER']}>
+              <FindCofoundersPage />
             </ProtectedRoute>
           } />
 

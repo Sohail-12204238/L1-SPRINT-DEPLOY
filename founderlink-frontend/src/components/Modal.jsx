@@ -12,7 +12,7 @@ export default function Modal({ title, onClose, children, wide = false }) {
       <div className={`modal-box${wide ? ' modal-wide' : ''}`}>
         {title && (
           <div className="modal-header">
-            <h2 className="modal-title">{title}</h2>
+            <h2 className="modal-title">{title.toUpperCase()}</h2>
             <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
           </div>
         )}
@@ -25,40 +25,37 @@ export default function Modal({ title, onClose, children, wide = false }) {
       <style>{`
         .modal-overlay{
           position:fixed;inset:0;z-index:2000;
-          background:rgba(0,0,0,0.72);
-          backdrop-filter:blur(5px);
+          background:rgba(0,0,0,0.85);
+          backdrop-filter:blur(8px);
           display:flex;align-items:center;justify-content:center;
-          padding:1rem;
+          padding:1.5rem;
         }
         .modal-box{
-          background:#1a1a26;
-          border:1px solid rgba(255,255,255,.1);
-          border-radius:18px;
-          width:100%;max-width:480px;
-          box-shadow:0 24px 64px rgba(0,0,0,.6);
+          background:var(--bg-card);
+          border:1px solid var(--border);
+          border-radius:2px;
+          width:100%;max-width:500px;
+          box-shadow:var(--shadow);
           position:relative;
         }
-        .modal-wide{max-width:760px;}
+        .modal-wide{max-width:800px;}
         .modal-header{
           display:flex;align-items:center;justify-content:space-between;
-          padding:1.1rem 1.4rem;
-          border-bottom:1px solid rgba(255,255,255,.07);
+          padding:1.5rem 2rem;
+          border-bottom:1px solid var(--border);
         }
-        .modal-title{font-size:1rem;font-weight:700;color:#fff;}
+        .modal-title{font-size:.85rem;font-weight:900;color:var(--text-1);letter-spacing:1px;}
         .modal-close{
-          background:none;border:none;color:rgba(255,255,255,.35);
-          font-size:.9rem;cursor:pointer;padding:.25rem .5rem;
-          border-radius:6px;transition:all .15s;
+          background:none;border:none;color:var(--text-3);
+          font-size:1rem;cursor:pointer;transition:all .2s;
         }
-        .modal-close:hover{background:rgba(239,68,68,.15);color:#f87171;}
+        .modal-close:hover{color:var(--purple);}
         .modal-close-corner{
-          position:absolute;top:.9rem;right:1rem;
-          background:none;border:none;color:rgba(255,255,255,.35);
-          font-size:.9rem;cursor:pointer;padding:.25rem .5rem;
-          border-radius:6px;transition:all .15s;z-index:1;
+          position:absolute;top:1rem;right:1.5rem;
+          background:none;border:none;color:var(--text-3);
+          font-size:1rem;cursor:pointer;z-index:1;
         }
-        .modal-close-corner:hover{background:rgba(239,68,68,.15);color:#f87171;}
-        .modal-body{padding:1.4rem;}
+        .modal-body{padding:2rem;}
       `}</style>
     </div>
   );

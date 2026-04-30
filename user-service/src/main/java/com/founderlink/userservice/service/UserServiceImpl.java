@@ -83,6 +83,14 @@ public class UserServiceImpl implements UserService{
 	            .map(userMapper::toDTO)
 	            .toList();
 	}
+
+	@Override
+	public List<UserResponse> getCofounders() {
+	    return userRepository.findByRole(Role.ROLE_COFOUNDER)
+	            .stream()
+	            .map(userMapper::toDTO)
+	            .toList();
+	}
 	
 	@Override
 	public UserResponse getByEmail(String email) {

@@ -1,35 +1,36 @@
 import { Link, useLocation } from 'react-router-dom';
 
 const founderNav = [
-  { label: 'WORKSPACE', items: [
-    { to: '/dashboard', icon: '⊞', label: 'Dashboard' },
-    { to: '/my-startups', icon: '○', label: 'My Startups' },
-    { to: '/my-teams', icon: '△', label: 'Team' },
-    { to: '/investor-requests', icon: '□', label: 'Requests' },
+  { label: 'Workspace', items: [
+    { to: '/dashboard', label: 'Dashboard' },
+    { to: '/my-startups', label: 'My Startups' },
+    { to: '/my-teams', label: 'Team' },
+    { to: '/investor-requests', label: 'Requests' },
   ]},
-  { label: 'TOOLS', items: [
-    { to: '/find-investors', icon: '💎', label: 'Find Investors' },
-    { to: '/startups', icon: '◎', label: 'Browse All' },
+  { label: 'Tools', items: [
+    { to: '/find-investors', label: 'Find Investors' },
+    { to: '/find-cofounders', label: 'Find Co-founders' },
+    { to: '/startups', label: 'Browse All' },
   ]},
 ];
 
 const investorNav = [
-  { label: 'WORKSPACE', items: [
-    { to: '/dashboard', icon: '⊞', label: 'Dashboard' },
-    { to: '/startups', icon: '○', label: 'Startups' },
-    { to: '/my-investments', icon: '△', label: 'Portfolio' },
-    { to: '/incoming-requests', icon: '□', label: 'Inbox' },
+  { label: 'Workspace', items: [
+    { to: '/dashboard', label: 'Dashboard' },
+    { to: '/startups', label: 'Startups' },
+    { to: '/my-investments', label: 'Portfolio' },
+    { to: '/incoming-requests', label: 'Inbox' },
   ]},
-  { label: 'TOOLS', items: [
-    { to: '/profile', icon: '◎', label: 'My Profile' },
+  { label: 'Tools', items: [
+    { to: '/profile', label: 'My Profile' },
   ]},
 ];
 
 const cofounderNav = [
-  { label: 'WORKSPACE', items: [
-    { to: '/dashboard', icon: '⊞', label: 'Dashboard' },
-    { to: '/startups', icon: '○', label: 'Startups' },
-    { to: '/my-teams', icon: '△', label: 'My Teams' },
+  { label: 'Workspace', items: [
+    { to: '/dashboard', label: 'Dashboard' },
+    { to: '/startups', label: 'Startups' },
+    { to: '/my-teams', label: 'My Teams' },
   ]},
 ];
 
@@ -43,6 +44,7 @@ export default function Sidebar({ role }) {
 
   return (
     <aside className="sidebar">
+      <div className="sidebar-header-spacer" />
       {nav.map((section) => (
         <div key={section.label} className="sidebar-section">
           <div className="sidebar-label">{section.label}</div>
@@ -53,7 +55,7 @@ export default function Sidebar({ role }) {
               id={`sidebar-${item.label.toLowerCase().replace(/\s/g, '-')}`}
               className={`sidebar-link${isActive(item.to) ? ' active' : ''}`}
             >
-              <span className="sidebar-icon">{item.icon}</span>
+              <div className="sidebar-indicator" />
               {item.label}
             </Link>
           ))}
@@ -61,7 +63,7 @@ export default function Sidebar({ role }) {
       ))}
       <div className="sidebar-section" style={{ marginTop: 'auto' }}>
         <Link to="/profile" id="sidebar-profile" className={`sidebar-link${isActive('/profile') ? ' active' : ''}`}>
-          <span className="sidebar-icon">👤</span>
+          <div className="sidebar-indicator" />
           Profile
         </Link>
       </div>

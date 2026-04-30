@@ -4,12 +4,20 @@ import { useAuth } from '../context/AuthContext';
 import { notificationAPI } from '../api/services';
 import './Navbar.css';
 
-// ─── SVG Logo Icon ────────────────────────────────────────────────────────────
-function LogoIcon() {
+
+
+function SunIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
   );
 }
@@ -30,6 +38,8 @@ export default function Navbar() {
     ? email.split('@')[0].split('.').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
     : '';
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
@@ -37,12 +47,10 @@ export default function Navbar() {
 
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
-  // ─── Fetch Notifications ───────────────────────────────────────────────────────
   const fetchNotifications = async () => {
     if (!isAuthenticated) return;
     try {
       const res = await notificationAPI.getAll();
-      console.log('Notifications fetched:', res.data);
       setNotifications(res.data || []);
     } catch (err) {
       console.error('Failed to fetch notifications', err);
@@ -52,12 +60,11 @@ export default function Navbar() {
   useEffect(() => {
     if (isAuthenticated) {
       fetchNotifications();
-      const interval = setInterval(fetchNotifications, 30000); // 30s polling
+      const interval = setInterval(fetchNotifications, 30000);
       return () => clearInterval(interval);
     }
   }, [isAuthenticated]);
 
-  // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (notifRef.current && !notifRef.current.contains(e.target)) setShowNotifs(false);
@@ -89,15 +96,13 @@ export default function Navbar() {
   const investorTabs = [
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/startups', label: 'Startups' },
-    { to: '/my-investments', label: 'My Investments' },
+    { to: '/my-investments', label: 'Portfolio' },
     { to: '/incoming-requests', label: 'Inbox' },
-    { to: '/my-teams', label: 'Teams' },
   ];
   const adminTabs = [
     { to: '/admin', label: 'Dashboard' },
     { to: '/startups', label: 'Startups' },
     { to: '/admin', label: 'Users' },
-    { to: '/admin', label: 'Analytics' },
   ];
 
   const tabs = cleanRole === 'FOUNDER' ? founderTabs
@@ -108,12 +113,10 @@ export default function Navbar() {
   return (
     <header className="topbar">
       <div className="topbar-brand">
-        <Link to={isAuthenticated ? (cleanRole === 'ADMIN' ? '/admin' : '/dashboard') : '/'} className="topbar-logo">
-          <div className="topbar-logo-icon"><LogoIcon /></div>
-          <span className="topbar-logo-name">FounderLink</span>
+        <Link to={isAuthenticated ? (cleanRole === 'ADMIN' ? '/admin' : '/dashboard') : '/'} className="topbar-logo" style={{ textDecoration: 'none' }}>
+          <img src="/logo.png" alt="FounderLink" style={{ height: '28px', objectFit: 'contain' }} />
         </Link>
-        {isAuthenticated && cleanRole === 'ADMIN' && <span className="topbar-admin-pill">Admin</span>}
-        {isAuthenticated && <div className="topbar-divider" />}
+        {isAuthenticated && cleanRole === 'ADMIN' && <span className="topbar-admin-pill">ADMIN</span>}
       </div>
 
       {isAuthenticated && (
@@ -129,58 +132,45 @@ export default function Navbar() {
       <div className="topbar-right">
         {isAuthenticated ? (
           <>
+            <button className="theme-toggle" onClick={toggleTheme} title={`Switch mode`}>
+              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+            </button>
             <div className="topbar-notif-container" ref={notifRef}>
-              <button 
-                className="topbar-notif" 
-                onClick={() => setShowNotifs(!showNotifs)}
-                title="Notifications"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              <button className="topbar-notif" onClick={() => setShowNotifs(!showNotifs)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
                 {unreadCount > 0 && <span className="notif-dot">{unreadCount}</span>}
               </button>
 
               {showNotifs && (
                 <div className="topbar-notif-dropdown">
-                  <div className="notif-header">
-                    <h3>Notifications</h3>
-                  </div>
+                  <div className="notif-header"><h3>NOTIFICATIONS</h3></div>
                   <div className="notif-list">
                     {notifications.length > 0 ? (
-                      notifications.map(n => {
-                        const dateStr = n.createdAt ? n.createdAt.replace(' ', 'T') : null;
-                        const date = dateStr ? new Date(dateStr) : new Date();
-                        return (
-                          <div 
-                            key={n.id} 
-                            className={`notif-item ${!n.read ? 'unread' : ''}`}
-                            onClick={() => handleMarkAsRead(n.id)}
-                          >
-                            <span className="notif-msg">{n.message}</span>
-                            <span className="notif-time">{isNaN(date) ? 'Just now' : date.toLocaleString()}</span>
-                          </div>
-                        );
-                      })
+                      notifications.map(n => (
+                        <div key={n.id} className={`notif-item ${!n.read ? 'unread' : ''}`} onClick={() => handleMarkAsRead(n.id)}>
+                          <span className="notif-msg">{n.message}</span>
+                        </div>
+                      ))
                     ) : (
-                      <div className="notif-empty">No notifications yet</div>
+                      <div className="notif-empty">No notifications</div>
                     )}
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="topbar-user" onClick={handleLogout} title="Click to logout">
+            <div className="topbar-user" onClick={handleLogout}>
               <div className="topbar-avatar">{initials}</div>
-              <span className="topbar-uname">{displayName || email}</span>
+              <span className="topbar-uname">{displayName}</span>
               <span className={`topbar-role-pill role-${cleanRole.toLowerCase()}`}>{cleanRole}</span>
             </div>
           </>
         ) : (
           <>
-            <Link to="/login" className="btn btn-ghost btn-sm">Sign in</Link>
-            <Link to="/register" className="btn btn-primary btn-sm">Get started</Link>
+            <Link to="/login" className="btn btn-ghost btn-sm">SIGN IN</Link>
+            <Link to="/register" className="btn btn-primary btn-sm">GET STARTED</Link>
           </>
         )}
       </div>

@@ -2,5 +2,7 @@ package com.founderlink.teamservice.entity;
 
 public enum TeamStatus {
     INVITED,
-    ACCEPTED
+    ACCEPTED,
+    REQUEST_PENDING,
+    REJECTED
 }

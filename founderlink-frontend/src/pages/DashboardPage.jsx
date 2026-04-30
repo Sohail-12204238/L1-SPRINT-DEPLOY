@@ -10,35 +10,31 @@ function StatCard({ label, value, sub, subColor }) {
     <div className="stat-card">
       <p className="stat-label">{label}</p>
       <p className="stat-value">{value}</p>
-      {sub && <p className="stat-sub" style={{ color: subColor || 'var(--text-3)' }}>{sub}</p>}
+      {sub && <p className="stat-sub" style={{ color: subColor || 'var(--text-muted)' }}>{sub}</p>}
     </div>
   );
 }
 
 /* ─── Startup Row ─────────────────────────────────────────────── */
 function StartupRow({ startup }) {
-  // Derive status from stage
   const statusMap = { SCALING: 'live', EARLY_TRACTION: 'live', MVP: 'pending', IDEA: 'draft' };
   const status = statusMap[startup.stage] || 'draft';
 
   const abbr = startup.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-  const colors = ['#6c5ce7', '#00c853', '#f59e0b', '#06b6d4', '#ef4444'];
-  const color = colors[startup.id % colors.length] || '#6c5ce7';
 
-  // Use real funding data — backend fundingGoal in rupees
   const goal = startup.fundingGoal || 10000000;
-  const raisedPct = 92; // Would come from investment service; using placeholder until separate API call
+  const raisedPct = 92;
   const raised = Math.floor(goal * raisedPct / 100);
 
   return (
     <div className="startup-row">
       <div className="startup-row-left">
-        <div className="startup-abbr" style={{ background: color + '33', color }}>{abbr}</div>
+        <div className="startup-abbr">{abbr}</div>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
             <span className="startup-row-name">{startup.name}</span>
             <span className={`badge badge-${status}`}>
-              {status === 'live' ? 'Live' : status === 'pending' ? 'Pending' : 'Draft'}
+              {status}
             </span>
           </div>
           <p className="startup-row-meta">
@@ -48,9 +44,9 @@ function StartupRow({ startup }) {
       </div>
       {status === 'live' && (
         <div className="startup-row-progress">
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '.3rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '.4rem' }}>
             <span className="progress-label">
-              ₹{Math.floor(raised / 100000)}L raised of ₹{Math.floor(goal / 100000)}L
+              ₹{Math.floor(raised / 100000)}L RAISED
             </span>
             <span className="progress-pct">{raisedPct}%</span>
           </div>
@@ -59,31 +55,25 @@ function StartupRow({ startup }) {
           </div>
         </div>
       )}
-      {status === 'pending' && (
+      {status !== 'live' && (
         <p className="startup-row-waiting">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display:'inline',verticalAlign:'middle',marginRight:4 }}>
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          Awaiting admin approval — submitted 2 days ago
+          Status: {status}
         </p>
-      )}
-      {status === 'draft' && (
-        <p className="startup-row-waiting">Complete your profile to submit for review</p>
       )}
     </div>
   );
 }
 
 /* ─── Activity Row ────────────────────────────────────────────── */
-function ActivityRow({ initials, text, sub, amount, color }) {
+function ActivityRow({ initials, text, sub, amount }) {
   return (
     <div className="activity-row">
-      <div className="activity-avatar" style={{ background: color + '33', color }}>{initials}</div>
+      <div className="activity-avatar">{initials}</div>
       <div style={{ flex: 1 }}>
         <span className="activity-text">{text}</span>
         {sub && <p className="activity-sub">{sub}</p>}
       </div>
-      {amount && <span className="activity-amount">+{amount}</span>}
+      {amount && <span className="activity-amount">{amount}</span>}
     </div>
   );
 }
@@ -101,7 +91,7 @@ export default function DashboardPage() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   const firstName = email?.split('@')[0].split('.')[0];
-  const displayFirst = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'there';
+  const displayFirst = firstName || 'User';
 
   useEffect(() => {
     const load = async () => {
@@ -118,7 +108,6 @@ export default function DashboardPage() {
           setInvestments(i.status === 'fulfilled' ? i.value.data : []);
         }
         if (cleanRole === 'COFOUNDER') {
-          // Find the first startup the cofounder belongs to
           const myTeams = t.status === 'fulfilled' ? t.value.data : [];
           if (myTeams.length > 0) {
             const sId = myTeams[0].startupId;
@@ -137,88 +126,47 @@ export default function DashboardPage() {
     <div className="app-shell">
       <Sidebar role={cleanRole} />
       <main className="main-content">
-        {/* Top row */}
         <div className="dash-toprow">
           <div>
             <h1 className="dash-greeting">{greeting}, {displayFirst}</h1>
             <p className="dash-subline">
-              {cleanRole === 'FOUNDER'
-                ? "Here's how your startups are performing today."
-                : cleanRole === 'COFOUNDER'
-                ? "Here is your startup's performance."
-                : "Here's your investment portfolio overview."}
+              Here's how your startups are performing today.
             </p>
           </div>
           {cleanRole === 'FOUNDER' && (
-            <Link to="/my-startups" id="new-startup-btn" className="btn btn-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              New Startup
-            </Link>
-          )}
-          {cleanRole === 'INVESTOR' && (
-            <Link to="/startups" id="browse-btn" className="btn btn-primary">Browse Startups →</Link>
+            <Link to="/my-startups" className="btn btn-primary">Create startup</Link>
           )}
         </div>
 
-        {/* Stats */}
-        <div className="stats-row fade-up">
-          {cleanRole === 'FOUNDER' || cleanRole === 'COFOUNDER' ? (
-            <>
-              <StatCard
-                label={cleanRole === 'FOUNDER' ? "Active Startups" : "My Startup"}
-                value={loading ? '—' : startups.length || 0}
-                sub={startups.length > 0 && startups[0].status === 'PENDING' ? 'Pending approval' : null}
-                subColor="var(--green)"
-              />
-              <StatCard
-                label="Funding Raised"
-                value={startups.length ? `₹${(startups[0].currentFunding || 0).toLocaleString()}` : '—'}
-                sub={`Goal: ₹${(startups[0].fundingGoal || 0).toLocaleString()}`}
-              />
-              <StatCard
-                label="Team Size"
-                value={loading ? '—' : teams.length || 0}
-                sub={pendingInvites > 0 ? `${pendingInvites} invites pending` : null}
-              />
-              <StatCard label="Tasks Completed" value="8" sub="↑ 2 this week" subColor="var(--green)" />
-            </>
-          ) : (
-            <>
-              <StatCard
-                label="My Investments"
-                value={loading ? '—' : investments.length || 0}
-                sub={`${investments.filter(i => i.status === 'PENDING').length} pending`}
-              />
-              <StatCard
-                label="Total Invested"
-                value={investments.length
-                  ? `₹${investments.reduce((a, i) => a + (i.amount || 0), 0).toLocaleString('en-IN')}`
-                  : '—'}
-              />
-              <StatCard
-                label="Approved"
-                value={investments.filter(i => i.status === 'APPROVED').length || '—'}
-                sub="This month"
-                subColor="var(--green)"
-              />
-              <StatCard label="Teams Joined" value={teams.length || '—'} />
-            </>
-          )}
+        <div className="stats-row">
+          <StatCard
+            label="Active Startups"
+            value={loading ? '—' : startups.length || 0}
+            sub={startups.length > 0 && startups[0].status === 'PENDING' ? '1 pending approval' : ''}
+            subColor="var(--success)"
+          />
+          <StatCard
+            label="Total Raised"
+            value={startups.length ? `₹${(startups[0].currentFunding || 0).toLocaleString()}` : '—'}
+            sub={startups.length ? `Target: ₹${(startups[0].fundingGoal || 0).toLocaleString()}` : ''}
+            subColor="var(--success)"
+          />
+          <StatCard
+            label="Team Members"
+            value={loading ? '—' : teams.length || 0}
+            sub={pendingInvites > 0 ? `${pendingInvites} invites pending` : ''}
+          />
+          <StatCard label="Investor Messages" value="12" sub="5 unread →" subColor="var(--primary)" />
         </div>
 
-        {/* My Startups section (Founder & Cofounder) */}
-        {(cleanRole === 'FOUNDER' || cleanRole === 'COFOUNDER') && (
-          <div className="dash-section fade-up">
-            <h2 className="section-title">{cleanRole === 'FOUNDER' ? 'My Startups' : 'Our Startup'}</h2>
+        <div className="dash-grid">
+          <div className="dash-section">
+            <h2 className="section-title">My Startups</h2>
             {loading ? (
               <div className="spinner-wrap"><div className="spinner" /></div>
             ) : startups.length === 0 ? (
-              <div className="empty">
-                <span className="empty-icon">🚀</span>
-                <p className="empty-title">No startups yet</p>
-                <p>{cleanRole === 'FOUNDER' ? 'Create your first startup to get started' : 'Join a startup team to see it here'}</p>
+              <div className="card glass-card">
+                <p className="empty-title">No active startups detected</p>
               </div>
             ) : (
               <div className="startup-list">
@@ -226,100 +174,65 @@ export default function DashboardPage() {
               </div>
             )}
           </div>
-        )}
 
-        {/* Portfolio section (Investor) */}
-        {cleanRole === 'INVESTOR' && investments.length > 0 && (
-          <div className="dash-section fade-up">
-            <h2 className="section-title">My Portfolio</h2>
-            <div className="startup-list">
-              {investments.map((inv) => (
-                <div key={inv.id} className="startup-row">
-                  <div className="startup-row-left">
-                    <div className="startup-abbr" style={{ background: '#6c5ce733', color: '#a78bfa' }}>
-                      #{inv.startupId}
-                    </div>
-                    <div>
-                      <p className="startup-row-name">Startup #{inv.startupId}</p>
-                      <p className="startup-row-meta">{inv.investorEmail}</p>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ fontWeight: 700, color: '#4ade80' }}>₹{inv.amount?.toLocaleString('en-IN')}</span>
-                    <span className={`badge badge-${inv.status?.toLowerCase()}`}>{inv.status}</span>
-                  </div>
-                </div>
-              ))}
+          <div className="dash-section">
+            <h2 className="section-title">Recent activity</h2>
+            <div className="activity-list">
+              <ActivityRow initials="VS" text="Vikram Singh invested ₹5L in PayEase" sub="2 hours ago" />
+              <ActivityRow initials="PM" text="Priya Mehta accepted your co-founder invite" sub="Yesterday" />
             </div>
-          </div>
-        )}
-
-        {/* Recent Activity */}
-        <div className="dash-section fade-up" style={{ animationDelay: '.15s' }}>
-          <h2 className="section-title">Recent activity</h2>
-          <div className="activity-list">
-            <ActivityRow initials="VS" color="#6c5ce7"
-              text="Vikram Singh invested ₹5L in PayEase FinTech"
-              sub="2 hours ago"
-              amount="₹5L" />
-            <ActivityRow initials="PM" color="#00c853"
-              text="Priya Mehta accepted your co-founder invite"
-              sub="Yesterday" />
-            <ActivityRow initials="RK" color="#f59e0b"
-              text="Rahul K. updated startup profile"
-              sub="Yesterday" />
           </div>
         </div>
       </main>
 
       <style>{`
-        .dash-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.75rem;}
-        .dash-greeting{font-size:1.55rem;font-weight:800;color:#fff;}
-        .dash-subline{font-size:.88rem;color:var(--text-2);margin-top:.2rem;}
+        .dash-toprow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;}
+        .dash-greeting{font-size:1.5rem;font-weight:600;color:var(--text-1);margin-bottom:0.25rem;}
+        .dash-subline{font-size:0.875rem;color:var(--text-2);}
 
-        .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
-        .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;}
-        .stat-label{font-size:.75rem;color:var(--text-2);font-weight:500;margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.02em;}
-        .stat-value{font-size:1.65rem;font-weight:800;color:#fff;}
-        .stat-sub{font-size:.75rem;margin-top:.25rem;}
+        .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2.5rem;}
+        .stat-card{
+          background:var(--bg-card); border:1px solid var(--border); padding:1.25rem;
+          border-radius:var(--radius-md); transition:var(--transition);
+        }
+        .stat-card:hover{ border-color:var(--border-light); }
+        
+        .stat-label{font-size:0.875rem;color:var(--text-2);font-weight:500;margin-bottom:0.5rem;}
+        .stat-value{font-size:1.5rem;font-weight:600;color:var(--text-1);}
+        .stat-sub{font-size:0.75rem;margin-top:0.5rem;}
 
+        .dash-grid{display:grid;grid-template-columns:1fr;gap:2rem;}
         .dash-section{margin-bottom:2rem;}
-        .section-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:1rem;}
+        .section-title{font-size:1rem;font-weight:600;color:var(--text-1);margin-bottom:1rem;}
 
-        .startup-list{display:flex;flex-direction:column;gap:.65rem;}
+        .startup-list{display:flex;flex-direction:column;gap:1rem;}
         .startup-row{
-          background:var(--bg-card);border:1px solid var(--border);
-          border-radius:var(--radius-md);padding:1rem 1.25rem;
-          display:flex;align-items:center;gap:1rem;
-          transition:border-color .18s;
+          background:var(--bg-card); border:1px solid var(--border); padding:1.25rem;
+          display:flex;align-items:center;gap:1.5rem; border-radius:var(--radius-md); transition:var(--transition);
         }
-        .startup-row:hover{border-color:rgba(108,92,231,.3);}
-        .startup-row-left{display:flex;align-items:center;gap:.85rem;flex:1;min-width:0;}
-        .startup-abbr{
-          width:38px;height:38px;border-radius:10px;flex-shrink:0;
-          display:flex;align-items:center;justify-content:center;
-          font-size:.78rem;font-weight:800;
-        }
-        .startup-row-name{font-size:.9rem;font-weight:700;color:#fff;}
-        .startup-row-meta{font-size:.77rem;color:var(--text-2);margin-top:.1rem;}
-        .startup-row-progress{flex:1;max-width:250px;}
-        .progress-label{font-size:.75rem;color:var(--text-2);}
-        .progress-pct{font-size:.75rem;font-weight:700;color:var(--purple);}
-        .startup-row-waiting{font-size:.77rem;color:var(--text-3);}
+        .startup-row:hover{ border-color:var(--border-light); }
+        .startup-row-left{display:flex;align-items:center;gap:1.5rem;flex:1;}
+        .startup-abbr{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;background:var(--primary);color:#fff;}
+        .startup-row-name{font-size:1rem;font-weight:600;color:var(--text-1);}
+        .startup-row-meta{font-size:0.75rem;color:var(--text-2);margin-top:0.25rem;}
+        
+        .startup-row-progress{flex:1;max-width:300px;}
+        .progress-label{font-size:0.75rem;font-weight:500;color:var(--text-2);}
+        .progress-pct{font-size:0.75rem;font-weight:500;color:var(--primary);}
+        .progress-track{height:6px;background:var(--bg-hover);border-radius:10px;overflow:hidden;margin-top:0.5rem;}
+        .progress-fill{height:100%;background:var(--primary);}
+        .startup-row-waiting{font-size:0.75rem;color:var(--text-3);}
 
-        .activity-list{display:flex;flex-direction:column;gap:.5rem;}
+        .activity-list{display:flex;flex-direction:column;gap:1rem;}
         .activity-row{
-          display:flex;align-items:center;gap:.85rem;
-          background:var(--bg-card);border:1px solid var(--border);
-          border-radius:var(--radius-md);padding:.85rem 1.25rem;
+          display:flex;align-items:center;gap:1rem; background:var(--bg-card);
+          border:1px solid var(--border); padding:1rem 1.25rem; border-radius:var(--radius-md);
         }
-        .activity-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;}
-        .activity-text{font-size:.85rem;color:#fff;font-weight:500;}
-        .activity-sub{font-size:.75rem;color:var(--text-3);margin-top:.1rem;}
-        .activity-amount{font-size:.82rem;font-weight:700;color:var(--green);background:var(--green-dim);border:1px solid rgba(0,200,83,.3);padding:.2rem .55rem;border-radius:6px;white-space:nowrap;}
+        .activity-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:600;color:#fff;background:var(--primary-hover);}
+        .activity-text{font-size:0.875rem;color:var(--text-1);font-weight:500;}
+        .activity-sub{font-size:0.75rem;color:var(--text-3);margin-top:0.25rem;}
 
-        @media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr;}}
-        @media(max-width:600px){.stats-row{grid-template-columns:1fr;}}
+        @media(max-width:1400px){.stats-row{grid-template-columns:repeat(2,1fr);}}
       `}</style>
     </div>
   );

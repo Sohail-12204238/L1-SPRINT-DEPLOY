@@ -54,17 +54,17 @@ export default function ProfilePage() {
       <main className="main-content" style={{ maxWidth: 720 }}>
         <div className="page-toprow">
           <div>
-            <h1 className="page-h1">👤 My Profile</h1>
+            <h1 className="page-h1">My Profile</h1>
             <p className="page-sub">{email}</p>
           </div>
           {!editMode && profile && (
-            <button id="edit-profile-btn" className="btn btn-secondary" onClick={() => setEditMode(true)}>✏️ Edit Profile</button>
+            <button id="edit-profile-btn" className="btn btn-secondary" onClick={() => setEditMode(true)}>Edit Profile</button>
           )}
         </div>
 
         {isNew && (
           <div className="alert alert-info" style={{ marginBottom: '1.5rem' }}>
-            ℹ️ Set up your profile to get discovered by the community.
+            Set up your profile to get discovered by the community.
           </div>
         )}
         {msg && <div className={`alert alert-${msgType}`} style={{ marginBottom: '1rem' }}>{msg}</div>}
@@ -121,14 +121,14 @@ export default function ProfilePage() {
         ) : profile && (
           <div className="card" style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
             {[
-              { label:'🛠 Skills', value: profile.skills },
-              { label:'💼 Experience', value: profile.experience },
-              { label:'📝 Bio', value: profile.bio },
-              { label:'🔗 Portfolio', value: profile.portfolioLinks },
+              { label:'Skills', value: profile.skills },
+              { label:'Experience', value: profile.experience },
+              { label:'Bio', value: profile.bio },
+              { label:'Portfolio', value: profile.portfolioLinks },
             ].filter(f => f.value).map(f => (
               <div key={f.label}>
-                <p style={{ fontSize:'.72rem', fontWeight:700, color:'rgba(167,139,250,.8)', textTransform:'uppercase', letterSpacing:'.05em', marginBottom:'.35rem' }}>{f.label}</p>
-                <p style={{ fontSize:'.9rem', color:'var(--text-2)', lineHeight:1.5 }}>{f.value}</p>
+                <p style={{ fontSize:'.875rem', fontWeight:600, color:'var(--text-1)', marginBottom:'.35rem' }}>{f.label}</p>
+                <p style={{ fontSize:'.875rem', color:'var(--text-2)', lineHeight:1.5 }}>{f.value}</p>
               </div>
             ))}
           </div>
@@ -137,21 +137,21 @@ export default function ProfilePage() {
 
       <style>{`
         .page-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;}
-        .page-h1{font-size:1.45rem;font-weight:800;color:#fff;}
-        .page-sub{font-size:.87rem;color:var(--text-2);margin-top:.2rem;}
+        .page-h1{font-size:1.875rem;font-weight:600;color:var(--text-1);}
+        .page-sub{font-size:.875rem;color:var(--text-2);margin-top:.25rem;}
         .profile-hero{
           background:var(--bg-card);border:1px solid var(--border);
-          border-radius:var(--radius-lg);padding:1.5rem;
+          border-radius:var(--radius-md);padding:1.5rem;
           display:flex;align-items:center;gap:1.25rem;
         }
         .profile-avatar-lg{
           width:68px;height:68px;border-radius:50%;
-          background:linear-gradient(135deg,#6c5ce7,#8b5cf6);
+          background:var(--primary);
           display:flex;align-items:center;justify-content:center;
-          font-size:1.5rem;font-weight:800;color:#fff;flex-shrink:0;
+          font-size:1.5rem;font-weight:600;color:#fff;flex-shrink:0;
         }
-        .profile-display-name{font-size:1.2rem;font-weight:700;color:#fff;}
-        .profile-email-sub{font-size:.82rem;color:var(--text-2);margin:.2rem 0 .45rem;}
+        .profile-display-name{font-size:1.25rem;font-weight:600;color:var(--text-1);}
+        .profile-email-sub{font-size:.875rem;color:var(--text-2);margin:.2rem 0 .45rem;}
       `}</style>
     </div>
   );

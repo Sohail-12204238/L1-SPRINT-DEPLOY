@@ -95,6 +95,76 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public TeamResponse requestJoin(String userEmail, JoinRequest request) {
+        StartupResponse startup;
+        try {
+            startup = startupClient.getStartup(request.getStartupId());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Startup not found");
+        }
+
+        if (repository.findByStartupIdAndUserEmail(request.getStartupId(), userEmail).isPresent()) {
+            throw new BadRequestException("Request already exists or user is already part of team");
+        }
+
+        Team team = new Team();
+        team.setStartupId(request.getStartupId());
+        team.setFounderEmail(startup.getFounderEmail());
+        team.setUserEmail(userEmail);
+        team.setRole(TeamRole.ENGINEERING_LEAD); // Default role, can be customized later
+        team.setStatus(TeamStatus.REQUEST_PENDING);
+
+        Team saved = repository.save(team);
+
+        sendEvent(
+                "TEAM_JOIN_REQUESTED",
+                startup.getFounderEmail(),
+                userEmail + " has requested to join your startup",
+                saved.getId()
+        );
+
+        return mapper.toDTO(saved);
+    }
+
+    @Override
+    public TeamResponse respondToTeam(Long teamId, boolean accept, String userEmail) {
+        Team team = repository.findById(teamId)
+                .orElseThrow(() -> new ResourceNotFoundException("Team record not found"));
+
+        boolean wasInvited = team.getStatus() == TeamStatus.INVITED;
+
+        // If it's an invite (founder -> cofounder), the cofounder must respond
+        if (wasInvited) {
+            if (!team.getUserEmail().equals(userEmail)) {
+                throw new UnauthorizedException("Not authorized to respond to this invite");
+            }
+        } 
+        // If it's a request (cofounder -> founder), the founder must respond
+        else if (team.getStatus() == TeamStatus.REQUEST_PENDING) {
+            if (!team.getFounderEmail().equals(userEmail)) {
+                throw new UnauthorizedException("Not authorized to respond to this request");
+            }
+        } else {
+            throw new BadRequestException("Cannot respond to this team record");
+        }
+
+        if (accept) {
+            team.setStatus(TeamStatus.ACCEPTED);
+            team.setJoinedAt(LocalDateTime.now());
+            Team saved = repository.save(team);
+            
+            // Notify the other party
+            String notifyEmail = wasInvited ? team.getFounderEmail() : team.getUserEmail();
+            sendEvent("TEAM_ACCEPTED", notifyEmail, "Team request accepted", saved.getId());
+            return mapper.toDTO(saved);
+        } else {
+            team.setStatus(TeamStatus.REJECTED);
+            Team saved = repository.save(team);
+            return mapper.toDTO(saved);
+        }
+    }
+
+    @Override
     public List<TeamResponse> getTeamByStartup(Long startupId, String email) {
 
         StartupResponse startup;

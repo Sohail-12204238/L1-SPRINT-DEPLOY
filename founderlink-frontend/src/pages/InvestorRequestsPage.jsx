@@ -48,7 +48,7 @@ export default function InvestorRequestsPage() {
       <main className="main-content">
         <div className="page-toprow">
           <div>
-            <h1 className="page-h1">📨 Investment Management</h1>
+            <h1 className="page-h1">Investment Management</h1>
             <p className="page-sub">Review and approve investments across your startups</p>
           </div>
         </div>
@@ -57,7 +57,6 @@ export default function InvestorRequestsPage() {
         {error && <div className="alert alert-error">⚠️ {error}</div>}
         {!loading && myStartups.length === 0 && (
           <div className="empty">
-            <span className="empty-icon">📨</span>
             <p className="empty-title">No startups yet</p>
             <p>Create a startup to start receiving investments</p>
           </div>
@@ -88,7 +87,7 @@ export default function InvestorRequestsPage() {
                       {invs.map(inv => (
                         <tr key={inv.id}>
                           <td style={{ color: 'var(--text-1)', fontSize: '.87rem' }}>{inv.investorEmail}</td>
-                          <td style={{ fontWeight: 700, color: 'var(--green)' }}>₹{inv.amount?.toLocaleString()}</td>
+                          <td style={{ fontWeight: 600, color: 'var(--success)' }}>₹{inv.amount?.toLocaleString()}</td>
                           <td><span className={`badge badge-${inv.status?.toLowerCase() === 'pending' ? 'pending' : inv.status?.toLowerCase() === 'approved' ? 'approved' : 'rejected'}`}>{inv.status}</span></td>
                           <td>
                             {msgs[inv.id] ? (
@@ -115,18 +114,18 @@ export default function InvestorRequestsPage() {
 
       <style>{`
         .page-toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;}
-        .page-h1{font-size:1.45rem;font-weight:800;color:#fff;}
+        .page-h1{font-size:1.45rem;font-weight:600;color:var(--text-1);}
         .page-sub{font-size:.87rem;color:var(--text-2);margin-top:.2rem;}
         .startup-section{margin-bottom:2rem;}
         .section-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1rem;}
-        .section-abbr{width:40px;height:40px;border-radius:10px;background:rgba(108,92,231,.2);color:#a78bfa;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;flex-shrink:0;}
-        .section-name{font-size:1rem;font-weight:700;color:#fff;}
+        .section-abbr{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;flex-shrink:0;}
+        .section-name{font-size:1rem;font-weight:600;color:var(--text-1);}
         .section-meta{font-size:.78rem;color:var(--text-2);margin-top:.1rem;}
-        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+        .inv-table-wrapper{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;}
         .inv-table{width:100%;border-collapse:collapse;}
-        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);background:rgba(255,255,255,.03);}
-        .inv-table td{padding:.85rem 1.25rem;border-top:1px solid var(--border);vertical-align:middle;font-size:.88rem;}
-        .inv-table tr:hover td{background:rgba(255,255,255,.02);}
+        .inv-table th{padding:.75rem 1.25rem;text-align:left;font-size:.875rem;font-weight:500;color:var(--text-2);border-bottom:1px solid var(--border);}
+        .inv-table td{padding:.85rem 1.25rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.88rem; color:var(--text-1);}
+        .inv-table tr:hover td{background:var(--bg-hover);}
       `}</style>
     </div>
   );

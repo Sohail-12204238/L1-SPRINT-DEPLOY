@@ -43,6 +43,29 @@ public class TeamController {
         return ResponseEntity.ok(service.join(userEmail, request));
     }
 
+    @PostMapping("/request-join")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<TeamResponse> requestJoin(
+            @Valid @RequestBody JoinRequest request,
+            HttpServletRequest httpRequest) {
+
+        String userEmail = httpRequest.getHeader("X-User");
+
+        return ResponseEntity.ok(service.requestJoin(userEmail, request));
+    }
+
+    @PutMapping("/respond/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<TeamResponse> respond(
+            @PathVariable Long id,
+            @RequestParam boolean accept,
+            HttpServletRequest httpRequest) {
+
+        String userEmail = httpRequest.getHeader("X-User");
+
+        return ResponseEntity.ok(service.respondToTeam(id, accept, userEmail));
+    }
+
     @GetMapping("/startup/{startupId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<TeamResponse>> getTeam(

@@ -12,5 +12,6 @@ public interface UserService {
 	UserResponse updateProfile(Long id, String email, UserRequest request);
 	UserResponse viewProfile(Long id);
 	List<UserResponse> getInvestors();
+	List<UserResponse> getCofounders();
 	UserResponse getByEmail(String email);
 }

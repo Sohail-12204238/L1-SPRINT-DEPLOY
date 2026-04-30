@@ -2,32 +2,32 @@ import { useEffect, useState } from 'react';
 import { userAPI, startupAPI } from '../api/services';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
-import FounderPitchModal from '../components/FounderPitchModal';
+import CofounderInviteModal from '../components/CofounderInviteModal';
 
-export default function FindInvestorsPage() {
+export default function FindCofoundersPage() {
   const { role } = useAuth();
   const cleanRole = role?.replace('ROLE_', '') || '';
-  const [investors, setInvestors] = useState([]);
+  const [cofounders, setCofounders] = useState([]);
   const [myStartups, setMyStartups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
-  const [requestTarget, setRequestTarget] = useState(null);
+  const [inviteTarget, setInviteTarget] = useState(null);
 
   useEffect(() => {
     Promise.all([
-      userAPI.getInvestors(),
+      userAPI.getCofounders(),
       startupAPI.getMyStartups()
-    ]).then(([iRes, sRes]) => {
-      setInvestors(iRes.data || []);
+    ]).then(([cRes, sRes]) => {
+      setCofounders(cRes.data || []);
       setMyStartups(sRes.data || []);
-    }).catch(() => setError('FAILED TO LOAD DATA.'))
+    }).catch(() => setError('FAILED TO LOAD CO-FOUNDERS.'))
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = investors.filter(i => 
-    i.name?.toLowerCase().includes(search.toLowerCase()) || 
-    i.bio?.toLowerCase().includes(search.toLowerCase())
+  const filtered = cofounders.filter(c => 
+    c.name?.toLowerCase().includes(search.toLowerCase()) || 
+    c.skills?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -36,14 +36,14 @@ export default function FindInvestorsPage() {
       <main className="main-content">
         <div className="page-toprow">
           <div>
-            <h1 className="page-h1">Find Investors</h1>
-            <p className="page-sub">Connect with strategic partners</p>
+            <h1 className="page-h1">Find Co-founders</h1>
+            <p className="page-sub">Connect with talented professionals</p>
           </div>
         </div>
 
         <div className="filter-bar">
           <input className="form-input" style={{ maxWidth: '450px' }}
-            placeholder="Search by name or interests..."
+            placeholder="Search by skills (React, Marketing, etc.)..."
             value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
@@ -52,36 +52,36 @@ export default function FindInvestorsPage() {
 
         {!loading && filtered.length === 0 && (
           <div className="card empty">
-            <p className="empty-title">NO INVESTORS FOUND</p>
+            <p className="empty-title">NO CO-FOUNDERS FOUND</p>
           </div>
         )}
 
         <div className="investor-grid">
-          {filtered.map(investor => {
-            const initials = investor.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'IN';
+          {filtered.map(cf => {
+            const initials = cf.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'CF';
             return (
-              <div key={investor.id} className="card investor-card fade-up">
+              <div key={cf.id} className="card investor-card fade-up">
                 <div className="inv-card-header">
                   <div className="inv-avatar">{initials}</div>
                   <div style={{ flex: 1 }}>
-                    <h3 className="inv-name">{investor.name}</h3>
-                    <p className="inv-email">{investor.email}</p>
+                    <h3 className="inv-name">{cf.name}</h3>
+                    <p className="inv-email">{cf.experience || 'Professional'}</p>
                   </div>
                 </div>
                 
-                <p className="inv-bio">{investor.bio || "Passionate about backing innovative startups and helping founders scale."}</p>
+                <p className="inv-bio">{cf.bio || "Passionate about building scalable products and looking for the next big challenge."}</p>
                 
-                {investor.skills && (
+                {cf.skills && (
                   <div className="inv-interests">
-                    {investor.skills.split(',').map(s => (
+                    {cf.skills.split(',').map(s => (
                       <span key={s} className="inv-tag">{s.trim()}</span>
                     ))}
                   </div>
                 )}
 
                 <div className="inv-footer">
-                  <button className="btn btn-primary btn-full" onClick={() => setRequestTarget(investor)}>
-                    Pitch startup
+                  <button className="btn btn-primary btn-full" onClick={() => setInviteTarget(cf)}>
+                    Invite to team
                   </button>
                 </div>
               </div>
@@ -89,11 +89,11 @@ export default function FindInvestorsPage() {
           })}
         </div>
 
-        {requestTarget && (
-          <FounderPitchModal 
-            investor={requestTarget} 
+        {inviteTarget && (
+          <CofounderInviteModal 
+            cofounder={inviteTarget} 
             myStartups={myStartups}
-            onClose={() => setRequestTarget(null)} 
+            onClose={() => setInviteTarget(null)} 
           />
         )}
       </main>

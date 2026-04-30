@@ -64,6 +64,12 @@ public class UserController {
 	public ResponseEntity<List<UserResponse>> getInvestors() {
 	    return ResponseEntity.ok(userService.getInvestors());
 	}
+
+	@GetMapping("/cofounders")
+	@PreAuthorize("hasAuthority('ROLE_FOUNDER') or hasAuthority('ROLE_COFOUNDER')")
+	public ResponseEntity<List<UserResponse>> getCofounders() {
+	    return ResponseEntity.ok(userService.getCofounders());
+	}
 	
 	@GetMapping("/email/{email}")
 	@PreAuthorize("hasAuthority('ROLE_FOUNDER') or hasAuthority('ROLE_INVESTOR')")

@@ -10,7 +10,7 @@ function AdminSidebar() {
   return (
     <aside className="admin-sidebar">
       <div className="admin-sidebar-section">
-        <div className="admin-sidebar-label">ADMIN</div>
+        <div className="admin-sidebar-label">Admin</div>
         {[
           { to: '/admin', icon: <GridIcon />, label: 'Dashboard' },
           { to: '/startups', icon: <RocketIcon />, label: 'Startups' },
@@ -221,7 +221,7 @@ function ApprovalQueue() {
 /* ─── Admin Dashboard Page ────────────────────────────────────── */
 export default function AdminPage() {
   const { email, logout } = useAuth();
-  const initials = email ? email.slice(0, 2).toUpperCase() : 'AD';
+  const initials = email ? email.slice(0, 2) : 'Ad';
 
   return (
     <div className="adm-shell">
@@ -263,8 +263,7 @@ export default function AdminPage() {
         }
         .admin-sidebar-section{margin-bottom:1.5rem;}
         .admin-sidebar-label{
-          font-size:.68rem;font-weight:700;color:var(--text-3);
-          text-transform:uppercase;letter-spacing:.08em;
+          font-size:.75rem;font-weight:600;color:var(--text-2);
           padding:.25rem 1.25rem .5rem;
         }
         .admin-sidebar-link{
@@ -275,8 +274,8 @@ export default function AdminPage() {
         }
         .admin-sidebar-link:hover{color:var(--text-1);background:rgba(255,255,255,.04);}
         .admin-sidebar-link.active{
-          color:#fff;background:var(--purple-dim);
-          border-left-color:var(--purple);font-weight:600;
+          color:var(--text-1);background:var(--bg-hover);
+          border-left-color:var(--primary);font-weight:600;
         }
         .admin-sidebar-icon{display:flex;align-items:center;opacity:.75;}
 
@@ -290,8 +289,8 @@ export default function AdminPage() {
         /* Stat cards */
         .adm-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;}
         .adm-stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;}
-        .adm-stat-label{font-size:.73rem;color:var(--text-2);font-weight:500;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.02em;}
-        .adm-stat-value{font-size:1.7rem;font-weight:800;color:#fff;}
+        .adm-stat-label{font-size:.75rem;color:var(--text-2);font-weight:500;margin-bottom:.3rem;}
+        .adm-stat-value{font-size:1.7rem;font-weight:600;color:var(--text-1);}
         .adm-stat-sub{font-size:.74rem;margin-top:.25rem;display:flex;align-items:center;gap:.3rem;}
 
         /* Content grid */
@@ -305,8 +304,8 @@ export default function AdminPage() {
         .adm-queue-sub{font-size:.77rem;color:var(--text-3);margin-top:.15rem;}
         .adm-queue-cols{
           display:grid;grid-template-columns:1.4fr .8fr .7fr .7fr 1fr;
-          padding:.4rem .5rem;font-size:.7rem;font-weight:700;
-          color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;
+          padding:.4rem .5rem;font-size:.75rem;font-weight:600;
+          color:var(--text-2);
           border-bottom:1px solid var(--border);margin-bottom:.25rem;
         }
         .adm-queue-row{
@@ -320,7 +319,7 @@ export default function AdminPage() {
         .adm-queue-name{font-size:.87rem;font-weight:700;color:#fff;}
         .adm-queue-sector{font-size:.73rem;color:var(--text-3);margin-top:.1rem;}
         .adm-queue-founder{font-size:.83rem;color:var(--text-2);}
-        .adm-queue-ask{font-size:.87rem;font-weight:700;color:var(--purple);}
+        .adm-queue-ask{font-size:.87rem;font-weight:600;color:var(--primary);}
         .adm-queue-date{font-size:.77rem;color:var(--text-3);}
         .adm-queue-btns{display:flex;gap:.4rem;}
         .adm-queue-empty{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1.5rem;color:var(--text-3);font-size:.85rem;}
@@ -331,16 +330,16 @@ export default function AdminPage() {
         .adm-chart-title{font-size:.9rem;font-weight:700;color:#fff;}
         .adm-chart-legend{display:flex;align-items:center;font-size:.73rem;color:var(--text-2);}
         .legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;}
-        .legend-dot.weekday{background:#6c5ce7;}
-        .legend-dot.weekend{background:#a78bfa;}
+        .legend-dot.weekday{background:var(--primary);}
+        .legend-dot.weekend{background:var(--primary-hover);}
 
         .adm-bar-chart{display:flex;align-items:flex-end;gap:.5rem;height:130px;padding-top:.5rem;}
         .adm-bar-item{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex:1;}
         .adm-bar-count{font-size:.65rem;font-weight:700;color:var(--text-2);}
         .adm-bar-track{flex:1;width:100%;position:relative;display:flex;align-items:flex-end;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.05);}
         .adm-bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .4s ease;}
-        .adm-bar-fill.weekday{background:#6c5ce7;}
-        .adm-bar-fill.weekend{background:#a78bfa;}
+        .adm-bar-fill.weekday{background:var(--primary);}
+        .adm-bar-fill.weekend{background:var(--primary-hover);}
         .adm-bar-label{font-size:.7rem;color:var(--text-3);font-weight:500;}
 
         /* Role distribution */
