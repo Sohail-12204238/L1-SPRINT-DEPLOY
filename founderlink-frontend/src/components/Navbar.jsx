@@ -30,6 +30,13 @@ export default function Navbar() {
     ? email.split('@')[0].split('.').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
     : '';
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+
   // ─── Fetch Notifications ───────────────────────────────────────────────────────
   const fetchNotifications = async () => {
     if (!isAuthenticated) return;

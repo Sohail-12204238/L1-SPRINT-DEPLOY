@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - D:/FounderLinkData/mysql:/var/lib/mysql
 
   # ================= RABBITMQ =================
   rabbitmq:
@@ -170,6 +170,3 @@ services:
       - "80:80"
     depends_on:
       - api-gateway
-
-volumes:
-  mysql_data:

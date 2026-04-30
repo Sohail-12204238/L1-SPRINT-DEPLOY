@@ -9,11 +9,13 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import StartupsPage from './pages/StartupsPage';
+import StartupDetailPage from './pages/StartupDetailPage';
 import MyStartupsPage from './pages/MyStartupsPage';
 import MyInvestmentsPage from './pages/MyInvestmentsPage';
 import IncomingRequestsPage from './pages/IncomingRequestsPage';
 import InvestorRequestsPage from './pages/InvestorRequestsPage';
 import MyTeamsPage from './pages/MyTeamsPage';
+import FindInvestorsPage from './pages/FindInvestorsPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
 
@@ -35,6 +37,9 @@ export default function App() {
           <Route path="/startups" element={
             <ProtectedRoute><StartupsPage /></ProtectedRoute>
           } />
+          <Route path="/startup/:id" element={
+            <ProtectedRoute><StartupDetailPage /></ProtectedRoute>
+          } />
           <Route path="/profile" element={
             <ProtectedRoute><ProfilePage /></ProtectedRoute>
           } />
@@ -51,6 +56,11 @@ export default function App() {
           <Route path="/investor-requests" element={
             <ProtectedRoute roles={['FOUNDER']}>
               <InvestorRequestsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/find-investors" element={
+            <ProtectedRoute roles={['FOUNDER']}>
+              <FindInvestorsPage />
             </ProtectedRoute>
           } />
 

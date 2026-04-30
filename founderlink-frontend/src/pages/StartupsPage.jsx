@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { startupAPI } from '../api/services';
 import { useAuth } from '../context/AuthContext';
 import InvestFlowModal from '../components/InvestFlowModal';
@@ -125,7 +126,7 @@ export default function StartupsPage() {
                       Request Investor
                     </button>
                   )}
-                  <button className="btn btn-ghost btn-sm">View Details →</button>
+                  <Link to={`/startup/${s.id}`} className="btn btn-ghost btn-sm">View Details →</Link>
                 </div>
               </div>
             );

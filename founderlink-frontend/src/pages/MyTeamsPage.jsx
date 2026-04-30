@@ -48,6 +48,14 @@ export default function MyTeamsPage() {
     } catch (err) { setJoinMsg('⚠️ ' + (err.response?.data?.message || 'Failed.')); }
     finally { setJoining(false); }
   };
+  const handleJoinInstant = async (sId) => {
+    setJoining(true);
+    try {
+      await teamAPI.join({ startupId: parseInt(sId) });
+      load();
+    } catch (err) { alert('Failed to join: ' + (err.response?.data?.message || 'Error')); }
+    finally { setJoining(false); }
+  };
 
   return (
     <div className="app-shell">
@@ -92,8 +100,15 @@ export default function MyTeamsPage() {
               <div className="team-role-name">{t.role?.replace('_', ' ')}</div>
               <div className="team-member-email">{t.userEmail}</div>
               <div className="team-card-footer">
-                <span className="team-startup-id">Startup #{t.startupId}</span>
-                {t.joinedAt && <span className="team-date">{new Date(t.joinedAt).toLocaleDateString()}</span>}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '.3rem' }}>
+                  <span className="team-startup-id">Startup #{t.startupId}</span>
+                  {t.joinedAt && <span className="team-date">{new Date(t.joinedAt).toLocaleDateString()}</span>}
+                </div>
+                {t.status === 'INVITED' && (
+                  <button className="btn btn-success btn-sm" onClick={() => { setJoinId(t.startupId); handleJoinInstant(t.startupId); }} disabled={joining}>
+                    ✓ Accept
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -73,3 +73,11 @@ export const notificationAPI = {
   getAll: () => api.get('/notifications'),
   markAsRead: (id) => api.put(`/notifications/read/${id}`),
 };
+
+// ─── MILESTONE ────────────────────────────────────────────────────────────────
+export const milestoneAPI = {
+  getByStartup: (startupId) => api.get(`/milestones/startup/${startupId}`),
+  create: (data) => api.post('/milestones', data),
+  updateStatus: (id, status) => api.put(`/milestones/${id}/status?status=${status}`),
+  delete: (id) => api.delete(`/milestones/${id}`),
+};

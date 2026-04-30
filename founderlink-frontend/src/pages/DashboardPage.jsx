@@ -117,6 +117,15 @@ export default function DashboardPage() {
           const [i] = await Promise.allSettled([investmentAPI.getMyInvestments()]);
           setInvestments(i.status === 'fulfilled' ? i.value.data : []);
         }
+        if (cleanRole === 'COFOUNDER') {
+          // Find the first startup the cofounder belongs to
+          const myTeams = t.status === 'fulfilled' ? t.value.data : [];
+          if (myTeams.length > 0) {
+            const sId = myTeams[0].startupId;
+            const res = await startupAPI.getById(sId);
+            setStartups([res.data]);
+          }
+        }
       } finally { setLoading(false); }
     };
     load();
@@ -135,6 +144,8 @@ export default function DashboardPage() {
             <p className="dash-subline">
               {cleanRole === 'FOUNDER'
                 ? "Here's how your startups are performing today."
+                : cleanRole === 'COFOUNDER'
+                ? "Here is your startup's performance."
                 : "Here's your investment portfolio overview."}
             </p>
           </div>
@@ -153,26 +164,25 @@ export default function DashboardPage() {
 
         {/* Stats */}
         <div className="stats-row fade-up">
-          {cleanRole === 'FOUNDER' ? (
+          {cleanRole === 'FOUNDER' || cleanRole === 'COFOUNDER' ? (
             <>
               <StatCard
-                label="Active Startups"
+                label={cleanRole === 'FOUNDER' ? "Active Startups" : "My Startup"}
                 value={loading ? '—' : startups.length || 0}
-                sub={startups.some(s => s.stage === 'MVP') ? '1 pending approval' : null}
+                sub={startups.length > 0 && startups[0].status === 'PENDING' ? 'Pending approval' : null}
                 subColor="var(--green)"
               />
               <StatCard
-                label="Total Raised"
-                value={startups.length ? '₹1.2Cr' : '—'}
-                sub="↑ ₹15L this month"
-                subColor="var(--green)"
+                label="Funding Raised"
+                value={startups.length ? `₹${(startups[0].currentFunding || 0).toLocaleString()}` : '—'}
+                sub={`Goal: ₹${(startups[0].fundingGoal || 0).toLocaleString()}`}
               />
               <StatCard
-                label="Team Members"
+                label="Team Size"
                 value={loading ? '—' : teams.length || 0}
                 sub={pendingInvites > 0 ? `${pendingInvites} invites pending` : null}
               />
-              <StatCard label="Investor Messages" value="12" sub="5 unread →" subColor="var(--green)" />
+              <StatCard label="Tasks Completed" value="8" sub="↑ 2 this week" subColor="var(--green)" />
             </>
           ) : (
             <>
@@ -198,17 +208,17 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* My Startups section (Founder) */}
-        {cleanRole === 'FOUNDER' && (
+        {/* My Startups section (Founder & Cofounder) */}
+        {(cleanRole === 'FOUNDER' || cleanRole === 'COFOUNDER') && (
           <div className="dash-section fade-up">
-            <h2 className="section-title">My Startups</h2>
+            <h2 className="section-title">{cleanRole === 'FOUNDER' ? 'My Startups' : 'Our Startup'}</h2>
             {loading ? (
               <div className="spinner-wrap"><div className="spinner" /></div>
             ) : startups.length === 0 ? (
               <div className="empty">
                 <span className="empty-icon">🚀</span>
                 <p className="empty-title">No startups yet</p>
-                <p>Create your first startup to get started</p>
+                <p>{cleanRole === 'FOUNDER' ? 'Create your first startup to get started' : 'Join a startup team to see it here'}</p>
               </div>
             ) : (
               <div className="startup-list">

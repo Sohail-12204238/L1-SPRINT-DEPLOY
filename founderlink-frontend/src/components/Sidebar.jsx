@@ -8,7 +8,7 @@ const founderNav = [
     { to: '/investor-requests', icon: '□', label: 'Requests' },
   ]},
   { label: 'TOOLS', items: [
-    { to: '/my-startups', icon: '+', label: 'New Startup', newStartup: true },
+    { to: '/find-investors', icon: '💎', label: 'Find Investors' },
     { to: '/startups', icon: '◎', label: 'Browse All' },
   ]},
 ];
