@@ -42,7 +42,10 @@ class UserControllerTest {
     @Test
     void testCreateProfile() throws Exception {
         UserRequest request = new UserRequest();
-        request.setName("Test");
+        request.setName("Test User");
+        request.setSkills("Java, Spring, React");
+        request.setExperience("5 years of software development");
+        request.setBio("A passionate software engineer building startup platforms.");
 
         when(userService.createProfile(anyString(), anyString(), any()))
                 .thenReturn(new UserResponse());
@@ -59,6 +62,10 @@ class UserControllerTest {
     @Test
     void testUpdateProfile() throws Exception {
         UserRequest request = new UserRequest();
+        request.setName("Updated User");
+        request.setSkills("Java, AWS, Python");
+        request.setExperience("7 years of experience");
+        request.setBio("Updated bio for the user profile test.");
 
         when(userService.updateProfile(anyLong(), anyString(), any()))
                 .thenReturn(new UserResponse());
