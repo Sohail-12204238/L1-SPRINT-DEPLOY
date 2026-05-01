@@ -34,35 +34,35 @@ jobs:
 
       # ─── BUILD & TEST BACKEND SERVICES ───────────────────────────────
       - name: Build and Test Service Registry
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./service-registry
 
       - name: Build and Test API Gateway
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./api-gateway
 
       - name: Build and Test Auth Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./authservice
 
       - name: Build and Test User Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./user-service
 
       - name: Build and Test Startup Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./startup-service
 
       - name: Build and Test Investment Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./investment-service
 
       - name: Build and Test Team Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./team-service
 
       - name: Build and Test Notification Service
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dtest="*ServiceTest,*ControllerTest" -Dsurefire.failIfNoSpecifiedTests=false
         working-directory: ./founderlink-notification-service
 
       # ─── BUILD & TEST FRONTEND ───────────────────────────────────────

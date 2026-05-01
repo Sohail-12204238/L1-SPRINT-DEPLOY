@@ -35,6 +35,12 @@ class StartupControllerTest {
 
         StartupRequest request = new StartupRequest();
         request.setName("Test Startup");
+        request.setDescription("This is a test startup description that is long enough.");
+        request.setIndustry("Tech");
+        request.setProblemStatement("This is a test problem statement that is long enough.");
+        request.setSolution("This is a test solution that is long enough.");
+        request.setFundingGoal(100000.0);
+        request.setStage(com.founderlink.startupservice.entity.StartupStage.IDEA);
 
         StartupResponse response = StartupResponse.builder()
                 .id(1L)

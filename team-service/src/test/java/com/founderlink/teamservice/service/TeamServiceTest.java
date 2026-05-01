@@ -60,8 +60,9 @@ class TeamServiceTest {
         inviteRequest.setStartupId(10L);
         inviteRequest.setUserEmail("user@test.com");
 
-        response = new TeamResponse();
-        response.setId(1L);
+        response = TeamResponse.builder()
+                .id(1L)
+                .build();
     }
 
     @Test
