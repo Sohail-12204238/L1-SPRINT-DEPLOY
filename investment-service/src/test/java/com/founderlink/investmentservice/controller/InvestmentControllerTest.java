@@ -131,6 +131,7 @@ class InvestmentControllerTest {
         InvestorRequestRequest request = new InvestorRequestRequest();
         request.setStartupId(1L);
         request.setInvestorEmail("inv@gmail.com");
+        request.setProposedAmount(50000.0);
 
         InvestorRequestResponse response = new InvestorRequestResponse();
 
