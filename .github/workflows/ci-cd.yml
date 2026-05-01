@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Docker tags must be lowercase. This converts the repo name safely.
       - name: Lowercase repository name
@@ -26,48 +26,62 @@ jobs:
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
 
-      # ─── BUILD BACKEND SERVICES ───────────────────────────────────────
-      - name: Build Service Registry
-        run: mvn -B clean package -DskipTests
+      # ─── BUILD & TEST BACKEND SERVICES ───────────────────────────────
+      - name: Build and Test Service Registry
+        run: mvn -B clean verify
         working-directory: ./service-registry
 
-      - name: Build API Gateway
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test API Gateway
+        run: mvn -B clean verify
         working-directory: ./api-gateway
 
-      - name: Build Auth Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test Auth Service
+        run: mvn -B clean verify
         working-directory: ./authservice
 
-      - name: Build User Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test User Service
+        run: mvn -B clean verify
         working-directory: ./user-service
 
-      - name: Build Startup Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test Startup Service
+        run: mvn -B clean verify
         working-directory: ./startup-service
 
-      - name: Build Investment Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test Investment Service
+        run: mvn -B clean verify
         working-directory: ./investment-service
 
-      - name: Build Team Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test Team Service
+        run: mvn -B clean verify
         working-directory: ./team-service
 
-      - name: Build Notification Service
-        run: mvn -B clean package -DskipTests
+      - name: Build and Test Notification Service
+        run: mvn -B clean verify
         working-directory: ./founderlink-notification-service
+
+      # ─── BUILD & TEST FRONTEND ───────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend Dependencies
+        run: npm install
+        working-directory: ./founderlink-frontend
+
+      - name: Run Frontend Tests
+        run: npm test
+        working-directory: ./founderlink-frontend
 
       # ─── BUILD & PUSH DOCKER IMAGES ───────────────────────────────────
       - name: Log in to GitHub Container Registry (GHCR)
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
