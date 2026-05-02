@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,8 +73,23 @@ public class UserController {
 	}
 	
 	@GetMapping("/email/{email}")
-	@PreAuthorize("hasAuthority('ROLE_FOUNDER') or hasAuthority('ROLE_INVESTOR')")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<UserResponse> getByEmail(@PathVariable String email) {
 	    return ResponseEntity.ok(userService.getByEmail(email));
+	}
+
+	/* ─── ADMIN ENDPOINTS ─────────────────────────────── */
+
+	@GetMapping("/all")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public ResponseEntity<List<UserResponse>> getAllUsers() {
+	    return ResponseEntity.ok(userService.getAllUsers());
+	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+	    userService.deleteUser(id);
+	    return ResponseEntity.ok("User deleted successfully");
 	}
 }

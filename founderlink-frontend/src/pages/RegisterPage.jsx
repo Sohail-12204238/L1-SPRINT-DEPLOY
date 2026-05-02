@@ -47,7 +47,28 @@ export default function RegisterPage() {
     setError('');
     setLoading(true);
     try {
+      // Step 1: Register in auth-service
       await authAPI.register({ ...authForm, role: selectedRole });
+
+      // Step 2: Auto-login to get token
+      const loginRes = await authAPI.login({ email: authForm.email, password: authForm.password });
+      const token = loginRes.data.token;
+      localStorage.setItem('token', token);
+
+      // Step 3: Auto-create a minimal profile so user appears in Find Investors/Cofounders
+      try {
+        await userAPI.createProfile({
+          name: authForm.name,
+          skills: 'Pending setup',
+          experience: '0 years',
+          bio: 'This profile is pending setup. Check back later!',
+          portfolioLinks: ''
+        });
+      } catch (err) {
+        console.error("Auto-create failed:", err.response?.data);
+        // Profile may already exist — that's fine
+      }
+
       setStep(3);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed.');
@@ -61,10 +82,19 @@ export default function RegisterPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await authAPI.login({ email: authForm.email, password: authForm.password });
-      const token = res.data.token;
-      localStorage.setItem('token', token);
-      await userAPI.createProfile({ name: authForm.name, ...profileForm });
+      // Update profile with the extra details filled in step 3
+      // We need the user's profile ID first — fetch it
+      const profileRes = await userAPI.getByEmail(authForm.email);
+      const userId = profileRes.data?.id;
+      if (userId) {
+        await userAPI.updateProfile(userId, {
+          name: authForm.name,
+          skills: profileForm.skills,
+          experience: profileForm.experience,
+          bio: profileForm.bio,
+          portfolioLinks: profileForm.portfolioLinks,
+        });
+      }
       navigate('/login');
     } catch {
       navigate('/login');
@@ -166,9 +196,19 @@ export default function RegisterPage() {
                 value={profileForm.skills} onChange={(e) => setProfileForm({ ...profileForm, skills: e.target.value })} required />
             </div>
             <div className="form-group">
+              <label className="form-label">Experience</label>
+              <input type="text" className="form-input" placeholder="e.g. 5 years in FinTech"
+                value={profileForm.experience} onChange={(e) => setProfileForm({ ...profileForm, experience: e.target.value })} required />
+            </div>
+            <div className="form-group">
               <label className="form-label">Bio</label>
               <textarea className="form-textarea" placeholder="Tell the community about yourself..."
                 value={profileForm.bio} onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })} required />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Portfolio / LinkedIn (Optional)</label>
+              <input type="text" className="form-input" placeholder="https://linkedin.com/in/you"
+                value={profileForm.portfolioLinks} onChange={(e) => setProfileForm({ ...profileForm, portfolioLinks: e.target.value })} />
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
               <button type="button" className="btn btn-secondary" onClick={() => navigate('/login')} style={{ flex: 1 }}>Skip for now</button>

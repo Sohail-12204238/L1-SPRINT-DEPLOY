@@ -14,4 +14,6 @@ public interface UserService {
 	List<UserResponse> getInvestors();
 	List<UserResponse> getCofounders();
 	UserResponse getByEmail(String email);
+	List<UserResponse> getAllUsers();
+	void deleteUser(Long id);
 }

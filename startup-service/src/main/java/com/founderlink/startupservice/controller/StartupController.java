@@ -63,7 +63,7 @@ public class StartupController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_FOUNDER')")
+    @PreAuthorize("hasAuthority('ROLE_FOUNDER') or hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> delete(
             @PathVariable Long id,
             HttpServletRequest httpRequest) {

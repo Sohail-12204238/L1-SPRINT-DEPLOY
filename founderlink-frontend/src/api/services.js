@@ -51,25 +51,18 @@ export const teamAPI = {
 };
 
 // ─── ADMIN ───────────────────────────────────────────────────────────────────
-// Note: Backend does not yet have admin-specific endpoints.
-// These are placeholder calls that can be wired once backend admin APIs are added.
 export const adminAPI = {
-  // Stats (would come from an admin-stats endpoint)
-  getStats: () => Promise.resolve({
-    data: {
-      totalUsers: 1620,
-      activeStartups: 218,
-      investmentsToday: '₹28L',
-      messagesSent: 1847,
-    }
-  }),
-  // Startup approval — maps to startup service update once admin endpoint is added
+  // All users (admin only — GET /users/all)
+  getAllUsers: () => api.get('/users/all'),
+  // Delete a user by ID (admin only — DELETE /users/{id})
+  deleteUser: (id) => api.delete(`/users/${id}`),
+  // All startups (admin review)
+  getAllStartups: () => api.get('/startups/all'),
+  // Delete any startup (admin override)
+  deleteStartup: (id) => api.delete(`/startups/${id}`),
+  // Approve / reject startup
   approveStartup: (id) => api.put(`/startups/${id}/approve`),
-  rejectStartup: (id) => api.put(`/startups/${id}/reject`),
-  // User management
-  getAllUsers: () => api.get('/users'),
-  // All startups (for admin review)
-  getPendingStartups: () => startupAPI.getAll(),
+  rejectStartup:  (id) => api.put(`/startups/${id}/reject`),
 };
 // ─── NOTIFICATION ─────────────────────────────────────────────────────────────
 export const notificationAPI = {

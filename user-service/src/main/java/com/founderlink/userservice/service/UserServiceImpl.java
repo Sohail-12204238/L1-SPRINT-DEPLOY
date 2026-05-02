@@ -99,6 +99,22 @@ public class UserServiceImpl implements UserService{
 	            .orElseThrow(() -> new UserNotFoundException("User not found"))
 	    );
 	}
+
+	@Override
+	public List<UserResponse> getAllUsers() {
+	    return userRepository.findAll()
+	            .stream()
+	            .map(userMapper::toDTO)
+	            .toList();
+	}
+
+	@Override
+	public void deleteUser(Long id) {
+	    User user = userRepository.findById(id)
+	            .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+	    userRepository.delete(user);
+	    System.out.println("Admin deleted user: " + user.getEmail());
+	}
 	
 	private void sendEvent(String type, String email, String message, Long id) {
 	    try {
