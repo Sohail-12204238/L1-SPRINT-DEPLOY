@@ -192,7 +192,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamResponse> getMyTeams(String email) {
-        return repository.findByUserEmail(email)
+        return repository.findByFounderEmailOrUserEmail(email, email)
                 .stream()
                 .map(mapper::toDTO)
                 .toList();

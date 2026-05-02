@@ -1,8 +1,8 @@
 const STAGE_COLORS = {
-  IDEA: { bg: 'rgba(99,102,241,0.12)', color: '#a78bfa', label: '💡 Idea' },
-  MVP: { bg: 'rgba(6,182,212,0.12)', color: '#67e8f9', label: '⚙️ MVP' },
-  EARLY_TRACTION: { bg: 'rgba(245,158,11,0.12)', color: '#fcd34d', label: '📈 Early Traction' },
-  SCALING: { bg: 'rgba(16,185,129,0.12)', color: '#6ee7b7', label: '🚀 Scaling' },
+  IDEA: { bg: 'rgba(99,102,241,0.1)', color: '#6366f1', label: '💡 Idea' },
+  MVP: { bg: 'rgba(6,182,212,0.1)', color: '#0891b2', label: '⚙️ MVP' },
+  EARLY_TRACTION: { bg: 'rgba(245,158,11,0.1)', color: '#b45309', label: '📈 Early Traction' },
+  SCALING: { bg: 'rgba(16,185,129,0.1)', color: '#057642', label: '🚀 Scaling' },
 };
 
 export default function StartupCard({ startup, actions, compact = false }) {
@@ -57,25 +57,25 @@ export default function StartupCard({ startup, actions, compact = false }) {
           border-radius: 999px; letter-spacing: 0.3px;
         }
         .startup-industry-tag {
-          font-size: 0.75rem; color: rgba(241,245,249,0.5);
-          border: 1px solid rgba(255,255,255,0.1);
+          font-size: 0.75rem; color: var(--text-3);
+          border: 1px solid var(--border);
           padding: 0.2rem 0.55rem; border-radius: 999px;
         }
-        .startup-card-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .startup-card-name { font-size: 1.1rem; font-weight: 700; color: var(--text-1); }
         .startup-card-desc {
-          font-size: 0.88rem; color: rgba(241,245,249,0.6);
+          font-size: 0.88rem; color: var(--text-2);
           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
         .startup-detail-row { display: flex; flex-direction: column; gap: 0.6rem; }
         .startup-detail { display: flex; flex-direction: column; gap: 0.15rem; }
-        .detail-label { font-size: 0.7rem; font-weight: 700; color: rgba(167,139,250,0.8); text-transform: uppercase; letter-spacing: 0.5px; }
-        .detail-value { font-size: 0.83rem; color: rgba(241,245,249,0.65);
+        .detail-label { font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .detail-value { font-size: 0.83rem; color: var(--text-2);
           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .startup-card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.06); }
-        .funding-label { display: block; font-size: 0.68rem; color: rgba(241,245,249,0.4); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
-        .funding-amount { font-size: 1rem; font-weight: 800; color: #a78bfa; }
-        .founder-email { font-size: 0.75rem; color: rgba(241,245,249,0.35); }
-        .startup-card-actions { padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.06); }
+        .startup-card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+        .funding-label { display: block; font-size: 0.68rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+        .funding-amount { font-size: 1rem; font-weight: 800; color: var(--primary); }
+        .founder-email { font-size: 0.75rem; color: var(--text-3); }
+        .startup-card-actions { padding-top: 0.75rem; border-top: 1px solid var(--border); }
       `}</style>
     </div>
   );

@@ -32,12 +32,12 @@ export default function FounderPitchModal({ investor, myStartups, onClose }) {
     <Modal title="Pitch to Investor" onClose={onClose}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '.75rem',
-        background: 'rgba(255,255,255,.04)', border: '1px solid var(--border)',
+        background: 'var(--bg-app)', border: '1px solid var(--border)',
         borderRadius: 10, padding: '.75rem 1rem', marginBottom: '1.25rem'
       }}>
         <div style={{
-          width: 36, height: 36, borderRadius: 9, background: 'var(--purple-dim)',
-          color: 'var(--purple)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: 36, height: 36, borderRadius: 9, background: 'var(--primary-dim)',
+          color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '.85rem', fontWeight: 800, flexShrink: 0
         }}>{initials}</div>
         <div>

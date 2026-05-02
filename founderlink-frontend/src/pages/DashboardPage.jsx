@@ -86,6 +86,7 @@ export default function DashboardPage() {
   const [startups, setStartups] = useState([]);
   const [investments, setInvestments] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const hour = new Date().getHours();
@@ -96,8 +97,12 @@ export default function DashboardPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [t] = await Promise.allSettled([teamAPI.getMyTeams()]);
+        const [t, n] = await Promise.allSettled([
+          teamAPI.getMyTeams(),
+          import('../api/services').then(m => m.notificationAPI.getAll())
+        ]);
         setTeams(t.status === 'fulfilled' ? t.value.data : []);
+        setNotifications(n.status === 'fulfilled' ? n.value.data : []);
 
         if (cleanRole === 'FOUNDER') {
           const [s] = await Promise.allSettled([startupAPI.getMyStartups()]);
@@ -121,6 +126,7 @@ export default function DashboardPage() {
   }, [cleanRole]);
 
   const pendingInvites = teams.filter(t => t.status === 'INVITED').length;
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <div className="app-shell">
@@ -156,7 +162,12 @@ export default function DashboardPage() {
             value={loading ? '—' : teams.length || 0}
             sub={pendingInvites > 0 ? `${pendingInvites} invites pending` : ''}
           />
-          <StatCard label="Investor Messages" value="12" sub="5 unread →" subColor="var(--primary)" />
+          <StatCard
+            label="Notifications"
+            value={loading ? '—' : notifications.length}
+            sub={unreadCount > 0 ? `${unreadCount} unread →` : 'All caught up'}
+            subColor="var(--primary)"
+          />
         </div>
 
         <div className="dash-grid">
@@ -178,8 +189,25 @@ export default function DashboardPage() {
           <div className="dash-section">
             <h2 className="section-title">Recent activity</h2>
             <div className="activity-list">
-              <ActivityRow initials="VS" text="Vikram Singh invested ₹5L in PayEase" sub="2 hours ago" />
-              <ActivityRow initials="PM" text="Priya Mehta accepted your co-founder invite" sub="Yesterday" />
+              {notifications.length > 0 ? (
+                notifications.slice(0, 5).map(n => {
+                  const initials = n.title ? n.title.substring(0, 2).toUpperCase() : 'FL';
+                  const date = new Date(n.createdAt);
+                  const formattedDate = !isNaN(date) ? date.toLocaleDateString() : 'Recently';
+                  return (
+                    <ActivityRow 
+                      key={n.id || Math.random()} 
+                      initials={initials} 
+                      text={n.message} 
+                      sub={formattedDate} 
+                    />
+                  );
+                })
+              ) : (
+                <div className="card glass-card">
+                  <p className="empty-title" style={{ fontSize: '0.85rem' }}>No recent activity to display.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

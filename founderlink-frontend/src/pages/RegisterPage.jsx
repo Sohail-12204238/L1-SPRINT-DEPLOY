@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI, userAPI } from '../api/services';
+import Logo from '../components/Logo';
 import './Auth.css';
 
 const STEPS = [
@@ -81,8 +82,8 @@ export default function RegisterPage() {
   return (
     <div className="register-page">
       <div className="register-header">
-        <div className="register-logo" style={{ justifyContent: 'center' }}>
-          <img src="/logo.png" alt="FounderLink" style={{ height: '32px', objectFit: 'contain' }} />
+        <div className="register-logo" style={{ justifyContent: 'center', marginBottom: '1.5rem' }}>
+          <Logo size={48} showText={false} />
         </div>
 
         <div className="register-stepper">

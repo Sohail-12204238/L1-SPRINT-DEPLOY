@@ -25,17 +25,17 @@ export default function Modal({ title, onClose, children, wide = false }) {
       <style>{`
         .modal-overlay{
           position:fixed;inset:0;z-index:2000;
-          background:rgba(0,0,0,0.85);
-          backdrop-filter:blur(8px);
+          background:rgba(0,0,0,0.55);
+          backdrop-filter:blur(4px);
           display:flex;align-items:center;justify-content:center;
           padding:1.5rem;
         }
         .modal-box{
           background:var(--bg-card);
           border:1px solid var(--border);
-          border-radius:2px;
+          border-radius:var(--radius-md);
           width:100%;max-width:500px;
-          box-shadow:var(--shadow);
+          box-shadow:0 8px 32px rgba(0,0,0,0.15);
           position:relative;
         }
         .modal-wide{max-width:800px;}
@@ -49,7 +49,7 @@ export default function Modal({ title, onClose, children, wide = false }) {
           background:none;border:none;color:var(--text-3);
           font-size:1rem;cursor:pointer;transition:all .2s;
         }
-        .modal-close:hover{color:var(--purple);}
+        .modal-close:hover{color:var(--primary);}
         .modal-close-corner{
           position:absolute;top:1rem;right:1.5rem;
           background:none;border:none;color:var(--text-3);

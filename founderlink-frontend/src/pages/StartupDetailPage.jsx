@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { startupAPI, milestoneAPI } from '../api/services';
 import Sidebar from '../components/Sidebar';
+import InvestFlowModal from '../components/InvestFlowModal';
 import { useAuth } from '../context/AuthContext';
 
 export default function StartupDetailsPage() {
@@ -15,6 +16,7 @@ export default function StartupDetailsPage() {
   const [showAddMilestone, setShowAddMilestone] = useState(false);
   const [newMilestone, setNewMilestone] = useState({ title: '', description: '', targetDate: '' });
   const [isRequesting, setIsRequesting] = useState(false);
+  const [showInvestModal, setShowInvestModal] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -108,7 +110,7 @@ export default function StartupDetailsPage() {
                 </div>
 
                 {cleanRole === 'INVESTOR' && (
-                  <button className="btn btn-primary btn-full" style={{ marginTop: '1.5rem' }}>Invest now</button>
+                  <button className="btn btn-primary btn-full" style={{ marginTop: '1.5rem' }} onClick={() => setShowInvestModal(true)}>Invest now</button>
                 )}
                 {cleanRole === 'COFOUNDER' && (
                   <button 
@@ -171,6 +173,13 @@ export default function StartupDetailsPage() {
             )}
           </div>
         </div>
+
+        {showInvestModal && (
+          <InvestFlowModal 
+            startup={startup} 
+            onClose={() => setShowInvestModal(false)} 
+          />
+        )}
       </main>
     </div>
   );

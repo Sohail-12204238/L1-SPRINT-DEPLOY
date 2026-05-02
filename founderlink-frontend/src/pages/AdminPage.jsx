@@ -49,14 +49,14 @@ function TrendUpIcon() {
 }
 
 /* ─── Stat Card ───────────────────────────────────────────────── */
-function StatCard({ label, value, sub, subColor = 'var(--green)', icon }) {
+function StatCard({ label, value, sub, subColor = 'var(--success)', icon }) {
   return (
     <div className="adm-stat-card">
       <p className="adm-stat-label">{label}</p>
       <p className="adm-stat-value">{value}</p>
       {sub && (
         <p className="adm-stat-sub" style={{ color: subColor }}>
-          {subColor === 'var(--green)' && <TrendUpIcon />} {sub}
+          {subColor === 'var(--success)' && <TrendUpIcon />} {sub}
         </p>
       )}
     </div>
@@ -110,7 +110,7 @@ function RegistrationChart() {
 function RoleDistribution() {
   const roles = [
     { label: 'Founders', count: 1240, total: 1620, color: '#6c5ce7' },
-    { label: 'Investors', count: 380, total: 1620, color: '#a78bfa' },
+    { label: 'Investors', count: 380, total: 1620, color: 'var(--primary)' },
     { label: 'Co-founders', count: 320, total: 1620, color: '#8b5cf6' },
   ];
   return (
@@ -272,7 +272,7 @@ export default function AdminPage() {
           color:var(--text-2);text-decoration:none;
           transition:all .18s;border-left:2px solid transparent;
         }
-        .admin-sidebar-link:hover{color:var(--text-1);background:rgba(255,255,255,.04);}
+        .admin-sidebar-link:hover{color:var(--text-1);background:var(--bg-hover);}
         .admin-sidebar-link.active{
           color:var(--text-1);background:var(--bg-hover);
           border-left-color:var(--primary);font-weight:600;
@@ -300,7 +300,7 @@ export default function AdminPage() {
         /* Approval queue */
         .adm-queue-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;overflow:hidden;}
         .adm-queue-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
-        .adm-queue-title{font-size:.95rem;font-weight:700;color:#fff;}
+        .adm-queue-title{font-size:.95rem;font-weight:700;color:var(--text-1);}
         .adm-queue-sub{font-size:.77rem;color:var(--text-3);margin-top:.15rem;}
         .adm-queue-cols{
           display:grid;grid-template-columns:1.4fr .8fr .7fr .7fr 1fr;
@@ -311,12 +311,12 @@ export default function AdminPage() {
         .adm-queue-row{
           display:grid;grid-template-columns:1.4fr .8fr .7fr .7fr 1fr;
           align-items:center;padding:.75rem .5rem;
-          border-bottom:1px solid rgba(255,255,255,.04);
+          border-bottom:1px solid var(--border);
           transition:background .15s;
         }
         .adm-queue-row:last-child{border-bottom:none;}
-        .adm-queue-row:hover{background:rgba(255,255,255,.02);}
-        .adm-queue-name{font-size:.87rem;font-weight:700;color:#fff;}
+        .adm-queue-row:hover{background:var(--bg-hover);}
+        .adm-queue-name{font-size:.87rem;font-weight:700;color:var(--text-1);}
         .adm-queue-sector{font-size:.73rem;color:var(--text-3);margin-top:.1rem;}
         .adm-queue-founder{font-size:.83rem;color:var(--text-2);}
         .adm-queue-ask{font-size:.87rem;font-weight:600;color:var(--primary);}
@@ -327,7 +327,7 @@ export default function AdminPage() {
         /* Bar chart */
         .adm-chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;}
         .adm-chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
-        .adm-chart-title{font-size:.9rem;font-weight:700;color:#fff;}
+        .adm-chart-title{font-size:.9rem;font-weight:700;color:var(--text-1);}
         .adm-chart-legend{display:flex;align-items:center;font-size:.73rem;color:var(--text-2);}
         .legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;}
         .legend-dot.weekday{background:var(--primary);}
@@ -336,7 +336,7 @@ export default function AdminPage() {
         .adm-bar-chart{display:flex;align-items:flex-end;gap:.5rem;height:130px;padding-top:.5rem;}
         .adm-bar-item{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex:1;}
         .adm-bar-count{font-size:.65rem;font-weight:700;color:var(--text-2);}
-        .adm-bar-track{flex:1;width:100%;position:relative;display:flex;align-items:flex-end;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.05);}
+        .adm-bar-track{flex:1;width:100%;position:relative;display:flex;align-items:flex-end;border-radius:4px;overflow:hidden;background:var(--bg-hover);}
         .adm-bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .4s ease;}
         .adm-bar-fill.weekday{background:var(--primary);}
         .adm-bar-fill.weekend{background:var(--primary-hover);}
@@ -348,8 +348,8 @@ export default function AdminPage() {
         .adm-dist-row:last-child{margin-bottom:0;}
         .adm-dist-top{display:flex;justify-content:space-between;margin-bottom:.45rem;}
         .adm-dist-label{font-size:.83rem;color:var(--text-2);font-weight:500;}
-        .adm-dist-val{font-size:.83rem;font-weight:700;color:#fff;}
-        .adm-dist-track{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;}
+        .adm-dist-val{font-size:.83rem;font-weight:700;color:var(--text-1);}
+        .adm-dist-track{height:6px;background:var(--bg-hover);border-radius:999px;overflow:hidden;}
         .adm-dist-fill{height:100%;border-radius:999px;transition:width .5s ease;}
 
         @media(max-width:1100px){

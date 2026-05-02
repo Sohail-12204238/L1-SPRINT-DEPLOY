@@ -166,7 +166,7 @@ export default function InvestFlowModal({ startup, onClose }) {
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
               <h2 className="flow-panel-title">Investment submitted!</h2>
               <p style={{ color: 'var(--text-2)', marginBottom: '1.5rem' }}>
-                Your investment of {formatFull(amount)} in {startup.name} is now <strong style={{ color: '#fbbf24' }}>PENDING</strong> review.
+                Your investment of {formatFull(amount)} in {startup.name} is now <strong style={{ color: 'var(--warning)' }}>PENDING</strong> review.
               </p>
               <button id="flow-done" className="btn btn-primary" onClick={onClose}>Done</button>
             </div>
@@ -178,9 +178,9 @@ export default function InvestFlowModal({ startup, onClose }) {
           <div className="flow-right">
             <div className="flow-summary-card">
               <div className="flow-sum-header">
-                <div className="scn-abbr" style={{ background: '#6c5ce733', color: '#a78bfa', width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.78rem', fontWeight: 800 }}>{abbr}</div>
+                <div className="scn-abbr" style={{ background: 'rgba(5,118,66,.15)', color: 'var(--primary)', width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.78rem', fontWeight: 800 }}>{abbr}</div>
                 <div>
-                  <p style={{ fontWeight: 700, color: '#fff', fontSize: '.92rem' }}>{startup.name}</p>
+                  <p style={{ fontWeight: 700, color: 'var(--text-1)', fontSize: '.92rem' }}>{startup.name}</p>
                   <p style={{ fontSize: '.75rem', color: 'var(--text-2)', marginTop: '.1rem' }}>
                     {startup.stage?.replace('_', ' ')} · {startup.industry}
                   </p>
@@ -193,18 +193,18 @@ export default function InvestFlowModal({ startup, onClose }) {
               </div>
               <div className="flow-sum-row">
                 <span>Already raised</span>
-                <strong style={{ color: 'var(--green)' }}>{formatFull(alreadyRaised)}</strong>
+                <strong style={{ color: 'var(--success)' }}>{formatFull(alreadyRaised)}</strong>
               </div>
               <div className="flow-sum-row">
                 <span>Remaining</span>
-                <strong style={{ color: 'var(--green)' }}>{formatFull(remaining)}</strong>
+                <strong style={{ color: 'var(--success)' }}>{formatFull(remaining)}</strong>
               </div>
               <div className="progress-track" style={{ margin: '.75rem 0' }}>
                 <div className="progress-fill" style={{ width: `${Math.round(alreadyRaised/fundingGoal*100)}%` }} />
               </div>
               <div className="divider" />
               <p style={{ fontSize: '.75rem', color: 'var(--text-3)', marginBottom: '.35rem' }}>Your investment</p>
-              <p style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--purple)' }}>{formatFull(amount)}</p>
+              <p style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary)' }}>{formatFull(amount)}</p>
               <p style={{ fontSize: '.78rem', color: 'var(--text-2)' }}>~{pct}% of funding ask</p>
             </div>
           </div>
@@ -218,11 +218,11 @@ export default function InvestFlowModal({ startup, onClose }) {
           width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
           font-size:.75rem;font-weight:700;flex-shrink:0;transition:all .2s;
         }
-        .flow-step-num.done{background:var(--purple);color:#fff;}
-        .flow-step-num.active{background:var(--purple);color:#fff;}
-        .flow-step-num.idle{background:rgba(255,255,255,.08);color:var(--text-3);border:1px solid var(--border);}
+        .flow-step-num.done{background:var(--primary);color:#fff;}
+        .flow-step-num.active{background:var(--primary);color:#fff;}
+        .flow-step-num.idle{background:var(--bg-hover);color:var(--text-3);border:1px solid var(--border);}
         .flow-step-label{font-size:.82rem;font-weight:500;}
-        .flow-step-label.active{color:#fff;}
+        .flow-step-label.active{color:var(--text-1);}
         .flow-step-label.done{color:var(--text-2);}
         .flow-step-label.idle{color:var(--text-3);}
         .flow-step-line{flex:1;height:1px;background:var(--border);min-width:30px;}
@@ -231,12 +231,12 @@ export default function InvestFlowModal({ startup, onClose }) {
         .flow-left{flex:1;min-width:0;}
         .flow-right{width:220px;flex-shrink:0;}
 
-        .flow-panel-title{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.3rem;}
+        .flow-panel-title{font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:.3rem;}
         .flow-panel-sub{font-size:.82rem;color:var(--text-2);margin-bottom:1.25rem;}
 
         .flow-amount-display{display:flex;flex-direction:column;margin-bottom:.75rem;}
         .flow-label{font-size:.75rem;color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
-        .flow-big-amount{font-size:1.65rem;font-weight:800;color:var(--purple);}
+        .flow-big-amount{font-size:1.65rem;font-weight:800;color:var(--primary);}
 
         .flow-slider{
           width:100%;margin:.25rem 0 .4rem;
@@ -245,44 +245,44 @@ export default function InvestFlowModal({ startup, onClose }) {
         }
         .flow-slider::-webkit-slider-thumb{
           -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-          background:var(--purple);cursor:pointer;box-shadow:0 0 0 3px rgba(108,92,231,.3);
+          background:var(--primary);cursor:pointer;box-shadow:0 0 0 3px rgba(5,118,66,.3);
         }
         .flow-slider-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-3);margin-bottom:.85rem;}
 
         .flow-quick-row{display:flex;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap;}
         .flow-quick-btn{
-          flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);
+          flex:1;background:var(--bg-app);border:1px solid var(--border);
           color:var(--text-1);border-radius:var(--radius-sm);padding:.6rem .75rem;
           cursor:pointer;text-align:left;transition:all .18s;font-family:'Inter',sans-serif;
           display:flex;flex-direction:column;gap:.15rem;
         }
-        .flow-quick-btn:hover{border-color:var(--purple);background:var(--purple-dim);}
-        .flow-quick-btn.selected{border-color:var(--purple);background:var(--purple-dim);}
+        .flow-quick-btn:hover{border-color:var(--primary);background:var(--primary-dim);}
+        .flow-quick-btn.selected{border-color:var(--primary);background:var(--primary-dim);}
         .flow-quick-btn span:first-child{font-size:.92rem;font-weight:700;}
         .flow-quick-tag{font-size:.68rem;color:var(--text-3);}
 
         .flow-summary-card{
-          background:rgba(255,255,255,.03);border:1px solid var(--border);
+          background:var(--bg-app);border:1px solid var(--border);
           border-radius:var(--radius-md);padding:1.1rem;
         }
         .flow-sum-header{display:flex;align-items:center;gap:.7rem;margin-bottom:.75rem;}
         .flow-sum-row{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.83rem;color:var(--text-2);}
-        .flow-sum-row strong{color:#fff;}
+        .flow-sum-row strong{color:var(--text-1);}
 
         .instrument-options{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem;}
         .instrument-opt{
           display:flex;align-items:flex-start;gap:.75rem;
-          background:rgba(255,255,255,.04);border:1px solid var(--border);
+          background:var(--bg-app);border:1px solid var(--border);
           border-radius:var(--radius-sm);padding:.85rem;cursor:pointer;transition:all .18s;
         }
-        .instrument-opt.selected{border-color:var(--purple);background:var(--purple-dim);}
-        .instrument-opt input[type=radio]{accent-color:var(--purple);margin-top:.2rem;flex-shrink:0;}
-        .inst-name{font-size:.88rem;font-weight:600;color:#fff;}
+        .instrument-opt.selected{border-color:var(--primary);background:var(--primary-dim);}
+        .instrument-opt input[type=radio]{accent-color:var(--primary);margin-top:.2rem;flex-shrink:0;}
+        .inst-name{font-size:.88rem;font-weight:600;color:var(--text-1);}
         .inst-desc{font-size:.78rem;color:var(--text-2);margin-top:.2rem;line-height:1.4;}
 
         .confirm-details{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem;}
-        .confirm-row{display:flex;justify-content:space-between;padding:.75rem;background:rgba(255,255,255,.04);border-radius:8px;font-size:.87rem;color:var(--text-2);}
-        .confirm-row strong{color:#fff;}
+        .confirm-row{display:flex;justify-content:space-between;padding:.75rem;background:var(--bg-app);border-radius:8px;font-size:.87rem;color:var(--text-2);}
+        .confirm-row strong{color:var(--text-1);}
 
         @media(max-width:600px){
           .flow-body{flex-direction:column;}

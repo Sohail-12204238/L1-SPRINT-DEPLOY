@@ -31,7 +31,7 @@ export default function JoinTeamModal({ startup, onClose }) {
           {success ? (
             <div className="fade-in">
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
-              <h3 style={{ color: 'var(--green)' }}>Request Sent!</h3>
+              <h3 style={{ color: 'var(--success)' }}>Request Sent!</h3>
               <p style={{ color: 'var(--text-2)' }}>The founder has been notified.</p>
             </div>
           ) : (

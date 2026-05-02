@@ -1,10 +1,12 @@
+/* ─── TOP BAR — LinkedIn Style ───────────────────────────────────────────────── */
 .topbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  height: 64px; display: flex; align-items: center;
+  height: 56px; display: flex; align-items: center;
   justify-content: space-between;
-  padding: 0 2.5rem;
-  background: var(--bg-app);
+  padding: 0 2rem;
+  background: #fff;
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .topbar-brand { display: flex; align-items: center; gap: 1.5rem; }
@@ -16,7 +18,17 @@
   color: #fff;
 }
 .topbar-logo-name { 
-  font-size: 1.25rem; font-weight: 700; color: #fff; 
+  font-size: 1.25rem; font-weight: 700; color: var(--text-1); 
+}
+.topbar-admin-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--danger);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
 }
 
 .topbar-tabs {
@@ -24,7 +36,7 @@
   height: 100%;
 }
 .topbar-tab {
-  padding: 0 0.25rem; height: 64px;
+  padding: 0 0.25rem; height: 56px;
   display: flex; align-items: center;
   font-size: 0.875rem; font-weight: 500; color: var(--text-2);
   text-decoration: none; transition: var(--transition); 
@@ -32,15 +44,16 @@
 }
 .topbar-tab:hover { color: var(--text-1); }
 .topbar-tab.active { 
-  color: var(--primary); 
-  border-bottom-color: var(--primary);
+  color: var(--text-1); 
+  border-bottom-color: var(--text-1);
+  font-weight: 600;
 }
 
-.topbar-right { display: flex; align-items: center; gap: 1.5rem; }
+.topbar-right { display: flex; align-items: center; gap: 1rem; }
 
 .theme-toggle {
   background: transparent; border: 1px solid var(--border);
-  cursor: pointer; width: 36px; height: 36px; border-radius: var(--radius-sm);
+  cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: var(--text-2); transition: var(--transition);
 }
@@ -48,21 +61,30 @@
   background: var(--bg-hover); color: var(--text-1);
 }
 
+.topbar-notif-container {
+  position: relative;
+}
+
 .topbar-notif {
   background: none; border: none; cursor: pointer;
   color: var(--text-2); position: relative;
   width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
   transition: var(--transition);
 }
-.topbar-notif:hover { color: var(--text-1); background: var(--bg-hover); border-radius: var(--radius-sm); }
+.topbar-notif:hover { color: var(--text-1); background: var(--bg-hover); }
 .notif-dot {
-  position: absolute; top: 6px; right: 6px;
-  background: var(--primary); width: 8px; height: 8px; border-radius: 50%;
+  position: absolute; top: 4px; right: 4px;
+  background: var(--danger); color: #fff;
+  width: 16px; height: 16px; border-radius: 50%;
+  font-size: 0.6rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
 }
 
 .topbar-user {
   display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
-  padding: 0.25rem; padding-right: 0.75rem; border: 1px solid var(--border);
+  padding: 0.35rem; padding-right: 0.75rem; border: 1px solid var(--border);
   transition: var(--transition); border-radius: 20px;
   background: transparent;
 }
@@ -73,25 +95,41 @@
 .topbar-avatar {
   width: 28px; height: 28px; border-radius: 50%;
   background: var(--primary); display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; font-weight: 600; color: #fff;
+  font-size: 0.7rem; font-weight: 600; color: #fff;
 }
 .topbar-uname { font-size: 0.875rem; font-weight: 500; color: var(--text-1); }
 
-.topbar-notif-dropdown {
-  position: absolute; top: 64px; right: 0;
-  width: 340px; background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); z-index: 1001;
+.topbar-role-pill {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.notif-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
-.notif-header h3 { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+.role-founder { background: var(--primary-dim); color: var(--primary); }
+.role-investor { background: rgba(5, 118, 66, 0.08); color: var(--success); }
+.role-admin { background: #fef2f2; color: var(--danger); }
+.role-cofounder { background: rgba(178, 64, 32, 0.06); color: var(--warning); }
+
+.topbar-notif-dropdown {
+  position: absolute; top: 48px; right: -50px;
+  width: 360px; background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); z-index: 1001;
+}
+.notif-header { padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--border); }
+.notif-header h3 { font-size: 0.875rem; font-weight: 700; color: var(--text-1); letter-spacing: 0.3px; }
+.notif-list { max-height: 300px; overflow-y: auto; }
 .notif-item {
-  padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+  padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--border);
   cursor: pointer; transition: var(--transition);
 }
+.notif-item.unread { background: var(--primary-dim); }
 .notif-item:hover { background: var(--bg-hover); }
 .notif-msg { font-size: 0.875rem; color: var(--text-1); line-height: 1.5; font-weight: 400; }
+.notif-empty { padding: 2rem; text-align: center; font-size: 0.875rem; color: var(--text-3); }
 
 @media(max-width: 1000px) {
   .topbar-tabs, .topbar-uname { display: none; }

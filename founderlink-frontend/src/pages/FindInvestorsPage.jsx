@@ -104,7 +104,7 @@ export default function FindInvestorsPage() {
         .page-sub{font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;}
 
         .filter-bar{margin-bottom:3rem;}
-        .glass-input{background:rgba(255,255,255,0.03) !important; border-color:var(--glass-border) !important;}
+        .glass-input{background:var(--bg-card) !important; border-color:var(--border) !important;}
         
         .investor-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:2rem;}
         .investor-card{

@@ -33,16 +33,16 @@ export default function InvestorRequestModal({ startup, onClose }) {
       {/* Startup context */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '.75rem',
-        background: 'rgba(255,255,255,.04)', border: '1px solid var(--border)',
+        background: 'var(--bg-app)', border: '1px solid var(--border)',
         borderRadius: 10, padding: '.75rem 1rem', marginBottom: '1.25rem'
       }}>
         <div style={{
-          width: 36, height: 36, borderRadius: 9, background: 'rgba(108,92,231,.2)',
-          color: '#a78bfa', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: 36, height: 36, borderRadius: 9, background: 'rgba(5,118,66,.15)',
+          color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '.72rem', fontWeight: 800, flexShrink: 0
         }}>{abbr}</div>
         <div>
-          <p style={{ fontWeight: 700, color: '#fff', fontSize: '.88rem' }}>{startup.name}</p>
+          <p style={{ fontWeight: 700, color: 'var(--text-1)', fontSize: '.88rem' }}>{startup.name}</p>
           <p style={{ fontSize: '.75rem', color: 'var(--text-2)', marginTop: '.1rem' }}>
             {startup.industry} · {startup.stage?.replace('_', ' ')}
           </p>
@@ -52,7 +52,7 @@ export default function InvestorRequestModal({ startup, onClose }) {
       {success ? (
         <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: '.75rem' }}>📨</div>
-          <p style={{ fontWeight: 700, color: '#fff', marginBottom: '.4rem' }}>Request sent!</p>
+          <p style={{ fontWeight: 700, color: 'var(--text-1)', marginBottom: '.4rem' }}>Request sent!</p>
           <p style={{ fontSize: '.85rem', color: 'var(--text-2)', marginBottom: '1.25rem' }}>
             The investor will be notified and can accept or reject your request.
           </p>

@@ -16,4 +16,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByStartupIdAndUserEmail(Long startupId, String email);
 
     List<Team> findByUserEmail(String email);
+
+    List<Team> findByFounderEmailOrUserEmail(String founderEmail, String userEmail);
 }

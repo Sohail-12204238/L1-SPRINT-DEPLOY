@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../api/services';
 import { useAuth } from '../context/AuthContext';
+import Logo from '../components/Logo';
 import './Auth.css';
 
 
@@ -41,7 +42,7 @@ export default function LoginPage() {
     <div className="auth-page">
       <div className="auth-left">
         <div className="auth-left-logo">
-          <img src="/logo.png" alt="FounderLink" style={{ height: '32px', objectFit: 'contain' }} />
+          <Logo size={48} showText={false} />
         </div>
         <div className="auth-left-body">
           <h2 className="auth-left-tagline">Connect. Build.<br />Fund your vision.</h2>
@@ -103,9 +104,8 @@ export default function LoginPage() {
             </div>
 
             <div className="form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
                 <label className="form-label">Password</label>
-                <a href="#" style={{ fontSize: '0.875rem', color: 'var(--primary)', textDecoration: 'none' }}>Forgot password?</a>
               </div>
               <input
                 type="password"

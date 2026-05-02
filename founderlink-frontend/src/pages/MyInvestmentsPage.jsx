@@ -80,7 +80,7 @@ export default function MyInvestmentsPage() {
                     <td style={{ color:'var(--text-3)', fontSize:'.8rem' }}>{i+1}</td>
                     <td>
                       <div style={{ display:'flex', alignItems:'center', gap:'.6rem' }}>
-                        <div style={{ width:32,height:32,borderRadius:8,background:'rgba(108,92,231,.2)',color:'#a78bfa',
+                        <div style={{ width:32,height:32,borderRadius:8,background:'rgba(5,118,66,.15)',color:'var(--primary)',
                           display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.7rem',fontWeight:800 }}>
                           #{inv.startupId}
                         </div>

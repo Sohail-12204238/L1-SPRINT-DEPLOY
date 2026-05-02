@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 import { notificationAPI } from '../api/services';
 import './Navbar.css';
 
@@ -87,47 +88,18 @@ export default function Navbar() {
   const handleLogout = () => { logout(); navigate('/login'); };
   const isActive = (path) => location.pathname === path;
 
-  const founderTabs = [
-    { to: '/dashboard', label: 'Dashboard' },
-    { to: '/my-startups', label: 'My Startups' },
-    { to: '/my-teams', label: 'Team' },
-    { to: '/investor-requests', label: 'Requests' },
-  ];
-  const investorTabs = [
-    { to: '/dashboard', label: 'Dashboard' },
-    { to: '/startups', label: 'Startups' },
-    { to: '/my-investments', label: 'Portfolio' },
-    { to: '/incoming-requests', label: 'Inbox' },
-  ];
-  const adminTabs = [
-    { to: '/admin', label: 'Dashboard' },
-    { to: '/startups', label: 'Startups' },
-    { to: '/admin', label: 'Users' },
-  ];
 
-  const tabs = cleanRole === 'FOUNDER' ? founderTabs
-    : cleanRole === 'INVESTOR' ? investorTabs
-    : cleanRole === 'ADMIN' ? adminTabs
-    : founderTabs;
 
   return (
     <header className="topbar">
       <div className="topbar-brand">
-        <Link to={isAuthenticated ? (cleanRole === 'ADMIN' ? '/admin' : '/dashboard') : '/'} className="topbar-logo" style={{ textDecoration: 'none' }}>
-          <img src="/logo.png" alt="FounderLink" style={{ height: '28px', objectFit: 'contain' }} />
+        <Link to={isAuthenticated ? (cleanRole === 'ADMIN' ? '/admin' : '/dashboard') : '/'} className="topbar-logo" style={{ textDecoration: 'none', height: '100%', display: 'flex', alignItems: 'center' }}>
+          <Logo size={42} />
         </Link>
         {isAuthenticated && cleanRole === 'ADMIN' && <span className="topbar-admin-pill">ADMIN</span>}
       </div>
 
-      {isAuthenticated && (
-        <nav className="topbar-tabs">
-          {tabs.map((t) => (
-            <Link key={t.to + t.label} to={t.to} className={`topbar-tab${isActive(t.to) ? ' active' : ''}`}>
-              {t.label}
-            </Link>
-          ))}
-        </nav>
-      )}
+
 
       <div className="topbar-right">
         {isAuthenticated ? (
