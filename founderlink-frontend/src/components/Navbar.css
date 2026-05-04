@@ -51,16 +51,6 @@
 
 .topbar-right { display: flex; align-items: center; gap: 1rem; }
 
-.theme-toggle {
-  background: transparent; border: 1px solid var(--border);
-  cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-2); transition: var(--transition);
-}
-.theme-toggle:hover {
-  background: var(--bg-hover); color: var(--text-1);
-}
-
 .topbar-notif-container {
   position: relative;
 }
