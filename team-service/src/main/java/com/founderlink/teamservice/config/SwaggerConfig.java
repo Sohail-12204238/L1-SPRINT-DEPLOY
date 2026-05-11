@@ -18,7 +18,10 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI customOpenAPI() {
 	    return new OpenAPI()
-	            .servers(List.of(new Server().url("http://localhost:8085")))
+	            .servers(List.of(
+	                    new Server().url("http://20.204.44.119:8085").description("Azure Production"),
+	                    new Server().url("http://localhost:8085").description("Local Development")
+	            ))
 	            .components(new Components()
 	                    .addSecuritySchemes("bearerAuth",
 	                            new SecurityScheme()
