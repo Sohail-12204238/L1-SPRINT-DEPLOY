@@ -114,6 +114,11 @@ springdoc:
         url: /v3/api-docs/team
       - name: notification-service
         url: /v3/api-docs/notification
+  servers:
+    - url: http://20.204.44.119:8085
+      description: Azure Production
+    - url: http://localhost:8085
+      description: Local Development
 
 
 # ================= EUREKA =================
