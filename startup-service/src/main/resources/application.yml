@@ -41,3 +41,8 @@ management:
 springdoc:
   api-docs:
     path: /v3/api-docs
+  servers:
+    - url: http://20.204.44.119:8085
+      description: Azure Production
+    - url: http://localhost:8085
+      description: Local Development
